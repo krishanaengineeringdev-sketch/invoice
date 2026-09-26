@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F4F5F6;
+    color: #36454F;
+  }
+
+  h1, h2, h3, h4, .font-heading {
+    font-family: 'Outfit', sans-serif;
+  }
+}
+
+/* Custom background pattern for login screen */
+.bg-grid-pattern {
+  background-image: radial-gradient(rgba(92, 122, 153, 0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Print CSS optimizations for guaranteed single A4 page fit */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 4mm 6mm;
+  }
+
+  html, body, #root {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11px;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Reset outer wrapper padding/margins */
+  .pb-16,
+  .min-h-screen {
+    padding-bottom: 0 !important;
+    min-height: 0 !important;
+  }
+
+  .print\:hidden,
+  header,
+  nav,
+  footer {
+    display: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+
+  .printable-invoice-card {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    background: white !important;
+    border-radius: 0 !important;
+  }
+
+  .print-break-avoid,
+  .invoice-header-block,
+  .invoice-metadata-grid,
+  .invoice-items-table,
+  .invoice-summary-block,
+  .invoice-terms-signature {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+}
+
+/* PDF Compact Mode Helper */
+.pdf-compact {
+  font-size: 0.9em !important;
+}
+.pdf-compact td, 
+.pdf-compact th {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+
