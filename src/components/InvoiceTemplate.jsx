@@ -139,7 +139,7 @@ export default function InvoiceTemplate({ data = {}, type = 'invoice' }) {
   }
 
   // Dynamic single-page fit scaling based on line item count
-  const pageFitClass = lineItems.length > 12 
+  const pageFitClass = lineItems.length > 10 
     ? 'super-compact-table' 
     : (lineItems.length > 7 ? 'ultra-compact-table' : (lineItems.length > 4 ? 'compact-table' : ''));
 
@@ -278,120 +278,122 @@ export default function InvoiceTemplate({ data = {}, type = 'invoice' }) {
       </div>
 
       {/* ================= ITEM TABLE ================= */}
-      {isChallan ? (
-        /* Challan Line Items Table: No Rate, Disc%, or Amount */
-        <table className="items-table challan-items-table">
-          <thead>
-            <tr>
-              <th className="sl" style={{ width: '8%' }}>Sl<br />No.</th>
-              <th className="description" style={{ width: '40%' }}>Description of Goods</th>
-              <th className="hsn" style={{ width: '14%' }}>HSN/SAC</th>
-              <th className="qty" style={{ width: '14%' }}>Quantity</th>
-              <th className="unit" style={{ width: '10%' }}>per</th>
-              <th className="remarks" style={{ width: '14%' }}>Remarks</th>
-            </tr>
-          </thead>
-          <tbody>
-            {lineItems.map((item, index) => {
-              const qty = parseFloat(item.quantity) || 0;
-              const isLast = index === lineItems.length - 1;
-              const rowClass = `item-row ${isFewItems && isLast ? 'last-item-padded' : ''}`;
+      <div className="items-table-wrapper">
+        {isChallan ? (
+          /* Challan Line Items Table: No Rate, Disc%, or Amount */
+          <table className="items-table challan-items-table">
+            <thead>
+              <tr>
+                <th className="sl" style={{ width: '8%' }}>Sl<br />No.</th>
+                <th className="description" style={{ width: '40%' }}>Description of Goods</th>
+                <th className="hsn" style={{ width: '14%' }}>HSN/SAC</th>
+                <th className="qty" style={{ width: '14%' }}>Quantity</th>
+                <th className="unit" style={{ width: '10%' }}>per</th>
+                <th className="remarks" style={{ width: '14%' }}>Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+              {lineItems.map((item, index) => {
+                const qty = parseFloat(item.quantity) || 0;
+                const isLast = index === lineItems.length - 1;
+                const rowClass = `item-row ${isFewItems && isLast ? 'last-item-padded' : ''}`;
 
-              return (
-                <tr key={item.id || index} className={rowClass}>
-                  <td style={{ textAlign: 'center' }}>{index + 1}</td>
-                  <td>{item.description}</td>
-                  <td style={{ textAlign: 'center' }}>{item.hsn_sac || item.hsn || '-'}</td>
-                  <td style={{ textAlign: 'right' }}>{fmt(qty)}</td>
-                  <td style={{ textAlign: 'center' }}>{(item.per || 'NOS').toUpperCase()}</td>
-                  <td style={{ textAlign: 'center' }}>{item.remarks || '-'}</td>
-                </tr>
-              );
-            })}
+                return (
+                  <tr key={item.id || index} className={rowClass}>
+                    <td style={{ textAlign: 'center' }}>{index + 1}</td>
+                    <td>{item.description}</td>
+                    <td style={{ textAlign: 'center' }}>{item.hsn_sac || item.hsn || '-'}</td>
+                    <td style={{ textAlign: 'right' }}>{fmt(qty)}</td>
+                    <td style={{ textAlign: 'center' }}>{(item.per || 'NOS').toUpperCase()}</td>
+                    <td style={{ textAlign: 'center' }}>{item.remarks || '-'}</td>
+                  </tr>
+                );
+              })}
 
-            {/* Total Quantity Row */}
-            <tr className="total-row">
-              <td></td>
-              <td>Total Quantity</td>
-              <td></td>
-              <td style={{ textAlign: 'right' }}>{fmt(totalQty)}</td>
-              <td style={{ textAlign: 'center' }}>{primaryUnit}</td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-      ) : (
-        /* Standard Invoice / Quotation Items Table */
-        <table className="items-table">
-          <thead>
-            <tr>
-              <th className="sl">Sl<br />No.</th>
-              <th className="description">{isQuotation ? 'Description of Goods / Scope' : 'Description of Goods'}</th>
-              <th className="hsn">HSN/SAC</th>
-              <th className="qty">Quantity</th>
-              <th className="rate">Rate</th>
-              <th className="unit">per</th>
-              <th className="discount">Disc %</th>
-              <th className="amount">Amount</th>
-            </tr>
-          </thead>
+              {/* Total Quantity Row */}
+              <tr className="total-row">
+                <td></td>
+                <td>Total Quantity</td>
+                <td></td>
+                <td style={{ textAlign: 'right' }}>{fmt(totalQty)}</td>
+                <td style={{ textAlign: 'center' }}>{primaryUnit}</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        ) : (
+          /* Standard Invoice / Quotation Items Table */
+          <table className="items-table">
+            <thead>
+              <tr>
+                <th className="sl">Sl<br />No.</th>
+                <th className="description">{isQuotation ? 'Description of Goods / Scope' : 'Description of Goods'}</th>
+                <th className="hsn">HSN/SAC</th>
+                <th className="qty">Quantity</th>
+                <th className="rate">Rate</th>
+                <th className="unit">per</th>
+                <th className="discount">Disc %</th>
+                <th className="amount">Amount</th>
+              </tr>
+            </thead>
 
-          <tbody>
-            {lineItems.map((item, index) => {
-              const qty = parseFloat(item.quantity) || 0;
-              const rate = parseFloat(item.rate) || 0;
-              const disc = parseFloat(item.discount) || 0;
-              const itemAmt = item.amount !== undefined && item.amount !== null && Number(item.amount) !== 0
-                ? Number(item.amount)
-                : qty * rate * (1 - disc / 100);
+            <tbody>
+              {lineItems.map((item, index) => {
+                const qty = parseFloat(item.quantity) || 0;
+                const rate = parseFloat(item.rate) || 0;
+                const disc = parseFloat(item.discount) || 0;
+                const itemAmt = item.amount !== undefined && item.amount !== null && Number(item.amount) !== 0
+                  ? Number(item.amount)
+                  : qty * rate * (1 - disc / 100);
 
-              const isLast = index === lineItems.length - 1;
-              const rowClass = `item-row ${isFewItems && isLast ? 'last-item-padded' : ''}`;
+                const isLast = index === lineItems.length - 1;
+                const rowClass = `item-row ${isFewItems && isLast ? 'last-item-padded' : ''}`;
 
-              return (
-                <tr key={item.id || index} className={rowClass}>
-                  <td>{index + 1}</td>
-                  <td>{item.description}</td>
-                  <td>{item.hsn_sac || item.hsn || ''}</td>
-                  <td>{fmt(qty)}</td>
-                  <td>{fmt(rate)}</td>
-                  <td>{(item.per || 'NOS').toUpperCase()}</td>
-                  <td>{disc > 0 ? `${disc}%` : ''}</td>
-                  <td>{fmt(itemAmt)}</td>
-                </tr>
-              );
-            })}
+                return (
+                  <tr key={item.id || index} className={rowClass}>
+                    <td>{index + 1}</td>
+                    <td>{item.description}</td>
+                    <td>{item.hsn_sac || item.hsn || ''}</td>
+                    <td>{fmt(qty)}</td>
+                    <td>{fmt(rate)}</td>
+                    <td>{(item.per || 'NOS').toUpperCase()}</td>
+                    <td>{disc > 0 ? `${disc}%` : ''}</td>
+                    <td>{fmt(itemAmt)}</td>
+                  </tr>
+                );
+              })}
 
-            {/* Tax rows */}
-            <tr className="tax-row">
-              <td colSpan={7} className="tax-label">CGST</td>
-              <td>{fmt(cgstAmt)}</td>
-            </tr>
+              {/* Tax rows */}
+              <tr className="tax-row">
+                <td colSpan={7} className="tax-label">CGST</td>
+                <td>{fmt(cgstAmt)}</td>
+              </tr>
 
-            <tr className="tax-row">
-              <td colSpan={7} className="tax-label">SGST</td>
-              <td>{fmt(sgstAmt)}</td>
-            </tr>
+              <tr className="tax-row">
+                <td colSpan={7} className="tax-label">SGST</td>
+                <td>{fmt(sgstAmt)}</td>
+              </tr>
 
-            <tr className="round-row">
-              <td colSpan={7} className="round-label">Rounded off-</td>
-              <td>{roundedOff && Math.abs(roundedOff) >= 0.005 ? fmt(roundedOff) : ''}</td>
-            </tr>
+              <tr className="round-row">
+                <td colSpan={7} className="round-label">Rounded off-</td>
+                <td>{roundedOff && Math.abs(roundedOff) >= 0.005 ? fmt(roundedOff) : ''}</td>
+              </tr>
 
-            {/* Total */}
-            <tr className="total-row">
-              <td></td>
-              <td>Total</td>
-              <td></td>
-              <td>{fmt(totalQty)}</td>
-              <td></td>
-              <td>{primaryUnit}</td>
-              <td></td>
-              <td>{fmt(grandTotal)}</td>
-            </tr>
-          </tbody>
-        </table>
-      )}
+              {/* Total */}
+              <tr className="total-row">
+                <td></td>
+                <td>Total</td>
+                <td></td>
+                <td>{fmt(totalQty)}</td>
+                <td></td>
+                <td>{primaryUnit}</td>
+                <td></td>
+                <td>{fmt(grandTotal)}</td>
+              </tr>
+            </tbody>
+          </table>
+        )}
+      </div>
 
       {/* ================= CHALLAN PURPOSE / TAX SUMMARY SECTION ================= */}
       {isChallan ? (
@@ -506,9 +508,7 @@ export default function InvoiceTemplate({ data = {}, type = 'invoice' }) {
 
           <strong>for Krishna Engineering</strong>
 
-          <div className="signature-space">
-            <span>Authorized<br />Signatory</span>
-          </div>
+          <div className="signature-space"></div>
 
           <div className="stamp">
             COMPANY<br />
