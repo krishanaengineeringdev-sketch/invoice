@@ -35,6 +35,7 @@ export default function QuotationPreviewPage() {
   const [isConverting, setIsConverting] = useState(false);
   const [showConvertModal, setShowConvertModal] = useState(false);
   const [convertError, setConvertError] = useState(null);
+  const [isFullSize, setIsFullSize] = useState(false);
 
   useEffect(() => {
     const fetchQuotationDetails = async () => {
@@ -246,7 +247,7 @@ export default function QuotationPreviewPage() {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25 }}
-      className="min-h-screen bg-[#F4F5F6] text-[#36454F] flex flex-col font-sans pb-16 overflow-x-hidden print:pb-0 print:min-h-0 print:bg-white"
+      className="min-h-screen bg-[#F4F5F6] text-[#36454F] flex flex-col font-sans pb-16 print:pb-0 print:min-h-0 print:bg-white"
     >
       {/* Top Action Navbar */}
       <header className="bg-[#36454F] text-white shadow-md sticky top-0 z-30 print:hidden">
@@ -261,12 +262,21 @@ export default function QuotationPreviewPage() {
             </Link>
           </div>
 
+          {/* Center Title */}
           <div className="text-center hidden md:block">
             <span className="text-xs text-[#5C7A99] uppercase tracking-wider font-bold block">Quotation / Estimate</span>
             <span className="text-sm font-bold font-mono text-white">{quotation.quotation_no}</span>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          {/* Mobile Quotation Number Badge */}
+          <div className="md:hidden text-right">
+            <span className="text-xs font-bold font-mono text-[#F2A104] bg-white/10 px-2.5 py-1 rounded-lg">
+              {quotation.quotation_no}
+            </span>
+          </div>
+
+          {/* Desktop Action Buttons */}
+          <div className="hidden md:flex items-center gap-2.5">
             {quotation.status !== 'converted' && (
               <button
                 onClick={() => setShowConvertModal(true)}
@@ -314,10 +324,71 @@ export default function QuotationPreviewPage() {
         </div>
       </header>
 
+      {/* Mobile Action Buttons 2x2 Grid (Visible only on < md screens) */}
+      <div className="md:hidden max-w-6xl w-full mx-auto px-3 pt-3 space-y-2 print:hidden">
+        {quotation.status !== 'converted' && (
+          <button
+            onClick={() => setShowConvertModal(true)}
+            className="w-full min-h-[44px] inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
+          >
+            <FileCheck className="w-4 h-4" />
+            <span>Convert to Official GST Invoice</span>
+          </button>
+        )}
+        <div className="grid grid-cols-2 gap-2 bg-white p-3 rounded-2xl shadow-xs border border-slate-200/80">
+          <Link
+            to={`/quotation/${id}/edit`}
+            className="min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#5C7A99] hover:bg-[#4a6480] text-white text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
+          >
+            <Pencil className="w-3.5 h-3.5" />
+            <span>Edit Quote</span>
+          </Link>
+          <button
+            onClick={handlePrint}
+            className="min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
+          >
+            <Printer className="w-3.5 h-3.5" />
+            <span>Print / PDF</span>
+          </button>
+          <button
+            onClick={handleWhatsAppShare}
+            className="min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
+            title="Share quotation via WhatsApp"
+          >
+            <MessageCircle className="w-3.5 h-3.5" />
+            <span>WhatsApp</span>
+          </button>
+          <button
+            onClick={handleEmailShare}
+            className="min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
+            title="Share quotation via Email"
+          >
+            <Mail className="w-3.5 h-3.5" />
+            <span>Email</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile View Mode Hint & Toggle (Fit to Screen vs Actual Size) */}
+      <div className="md:hidden max-w-6xl w-full mx-auto px-4 pt-2.5 flex items-center justify-between text-[11px] text-[#5C7A99] print:hidden">
+        <span className="font-semibold">
+          {isFullSize ? 'Viewing: 100% Full Size (Scrollable)' : 'Viewing: Scaled to Screen'}
+        </span>
+        <button
+          type="button"
+          onClick={() => setIsFullSize(!isFullSize)}
+          className="font-bold text-[#36454F] hover:text-[#F2A104] bg-white px-2.5 py-1 rounded-lg border border-slate-200 shadow-2xs cursor-pointer min-h-[36px] flex items-center gap-1 active:scale-95 transition-all"
+        >
+          {isFullSize ? 'Fit to Screen' : '100% Full Size'}
+        </button>
+      </div>
+
       {/* Main Printable Quotation Document */}
-      <main className="flex-1 w-full mx-auto p-4 sm:p-6 lg:p-8 print:p-0 flex justify-center overflow-x-auto">
-        <div className="invoice-preview-shell">
-          <InvoiceTemplate data={quotation} type="quotation" />
+      <main className="flex-1 w-full mx-auto p-2 sm:p-6 lg:p-8 print:p-0">
+        <div className="w-full overflow-x-auto md:overflow-visible flex justify-center">
+          <div className={`invoice-scale-wrapper ${isFullSize ? 'full-size' : ''}`}>
+            <InvoiceTemplate data={quotation} type="quotation" />
+          </div>
         </div>
       </main>
 

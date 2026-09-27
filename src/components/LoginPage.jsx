@@ -89,17 +89,17 @@ export default function LoginPage() {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25, ease: 'easeInOut' }}
-      className="min-h-screen bg-[#F4F5F6] flex flex-col justify-center items-center p-4 sm:p-6 font-sans relative overflow-x-hidden"
+      className="min-h-screen bg-[#F4F5F6] flex flex-col justify-center items-center p-3 sm:p-6 font-sans relative overflow-x-hidden"
     >
       {/* Decorative subtle ambient lights */}
       <div className="absolute top-1/4 -left-20 w-72 h-72 bg-[#F2A104]/10 rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-[#5C7A99]/15 rounded-full blur-3xl pointer-events-none"></div>
 
       {/* Main Container */}
-      <div className="w-full max-w-md z-10">
+      <div className="w-full max-w-md px-2 sm:px-0 z-10">
         
         {/* Login Card */}
-        <div className="bg-white rounded-2xl shadow-xl shadow-[#36454F]/5 border border-slate-200/80 p-8 sm:p-10 transition-all duration-300">
+        <div className="bg-white rounded-2xl shadow-xl shadow-[#36454F]/5 border border-slate-200/80 p-5 sm:p-8 md:p-10 transition-all duration-300">
           
           {/* Header Section with Logo & Company Name */}
           <div className="text-center mb-8">
@@ -186,13 +186,13 @@ export default function LoginPage() {
               </div>
 
               {/* Forgot Password Link below password field */}
-              <div className="flex items-center justify-between mt-2.5">
-                <label className="flex items-center text-xs text-[#5C7A99] cursor-pointer select-none">
+              <div className="flex flex-wrap items-center justify-between gap-2 mt-2.5 min-h-[44px]">
+                <label className="flex items-center text-xs text-[#5C7A99] cursor-pointer select-none py-2 min-h-[44px]">
                   <input
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-3.5 h-3.5 rounded border-slate-300 text-[#F2A104] focus:ring-[#F2A104] cursor-pointer"
+                    className="w-4 h-4 rounded border-slate-300 text-[#F2A104] focus:ring-[#F2A104] cursor-pointer"
                   />
                   <span className="ml-2 font-medium">Remember me</span>
                 </label>
@@ -203,7 +203,7 @@ export default function LoginPage() {
                     setShowForgotModal(true);
                     setResetEmailInput(email);
                   }}
-                  className="text-xs font-semibold text-[#5C7A99] hover:text-[#36454F] hover:underline transition-all duration-200 focus:outline-none"
+                  className="text-xs font-semibold text-[#5C7A99] hover:text-[#36454F] hover:underline transition-all duration-200 focus:outline-none py-2 min-h-[44px]"
                 >
                   Forgot password?
                 </button>

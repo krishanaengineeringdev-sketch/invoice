@@ -752,7 +752,8 @@ table {
   }
 
   main,
-  .invoice-preview-shell {
+  .invoice-preview-shell,
+  .invoice-scale-wrapper {
     padding: 0 !important;
     margin: 0 !important;
     width: 210mm !important;
@@ -762,6 +763,8 @@ table {
     height: 297mm !important;
     min-height: 0 !important;
     overflow: visible !important;
+    transform: none !important;
+    box-shadow: none !important;
   }
 
   .invoice {
@@ -972,18 +975,95 @@ table {
 }
 
 /* =========================================
-   RESPONSIVE
+   ON-SCREEN PREVIEW RESPONSIVE A4 SCALING
+   (Purely on-screen preview, print remains 100% fixed A4)
 ========================================= */
 
-@media (max-width: 900px) {
+.invoice-scale-wrapper {
+  width: 210mm;
+  height: 297mm;
+  flex-shrink: 0;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -2px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, margin 0.2s ease;
+}
 
+/* Tablet screens (769px - 900px) */
+@media (max-width: 900px) and (min-width: 769px) {
+  .invoice-scale-wrapper {
+    transform: scale(0.85);
+    transform-origin: top left;
+    width: 210mm;
+    margin-right: calc(-210mm * 0.15);
+    margin-bottom: calc(-297mm * 0.15);
+  }
+}
+
+/* Medium tablets / large phones (641px - 768px) */
+@media (max-width: 768px) {
+  .invoice-scale-wrapper {
+    transform: scale(0.68);
+    transform-origin: top left;
+    width: 210mm;
+    margin-right: calc(-210mm * 0.32);
+    margin-bottom: calc(-297mm * 0.32);
+  }
+}
+
+/* Wide mobile / phablets (481px - 640px) */
+@media (max-width: 640px) {
+  .invoice-scale-wrapper {
+    transform: scale(0.58);
+    transform-origin: top left;
+    width: 210mm;
+    margin-right: calc(-210mm * 0.42);
+    margin-bottom: calc(-297mm * 0.42);
+  }
+}
+
+/* Standard modern mobile screens (iPhone 16 / 15 / 14 / Pro, 390px - 430px up to 480px) */
+@media (max-width: 480px) {
+  .invoice-scale-wrapper {
+    transform: scale(0.46);
+    transform-origin: top left;
+    width: 210mm;
+    margin-right: calc(-210mm * 0.54);
+    margin-bottom: calc(-297mm * 0.54);
+  }
+}
+
+/* Compact phones (iPhone SE 375px, etc.) */
+@media (max-width: 375px) {
+  .invoice-scale-wrapper {
+    transform: scale(0.44);
+    transform-origin: top left;
+    width: 210mm;
+    margin-right: calc(-210mm * 0.56);
+    margin-bottom: calc(-297mm * 0.56);
+  }
+}
+
+/* Very narrow phones (320px - 340px) */
+@media (max-width: 340px) {
+  .invoice-scale-wrapper {
+    transform: scale(0.38);
+    transform-origin: top left;
+    width: 210mm;
+    margin-right: calc(-210mm * 0.62);
+    margin-bottom: calc(-297mm * 0.62);
+  }
+}
+
+/* 100% Full Size Scrollable mode override */
+.invoice-scale-wrapper.full-size {
+  transform: none !important;
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+@media (max-width: 900px) {
   .invoice-preview-shell {
     padding: 10px;
     overflow-x: auto;
-  }
-
-  .invoice {
-    transform-origin: top left;
   }
 }
 

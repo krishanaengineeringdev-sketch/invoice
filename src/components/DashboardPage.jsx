@@ -469,11 +469,11 @@ export default function DashboardPage() {
             </div>
 
             {/* Action Buttons: Export to Tally, New Challan & Create New Invoice */}
-            <div className="flex flex-wrap items-center gap-2.5 self-start md:self-auto">
+            <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 w-full md:w-auto">
               <button
                 onClick={handleExportTally}
                 disabled={isExporting || isLoading}
-                className="inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-[#5C7A99] hover:bg-[#4a637d] text-white font-bold text-xs shadow-sm hover:shadow-md transition-all cursor-pointer disabled:opacity-50 active:scale-95"
+                className="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-[#5C7A99] hover:bg-[#4a637d] text-white font-bold text-xs shadow-sm hover:shadow-md transition-all cursor-pointer disabled:opacity-50 active:scale-95"
               >
                 {isExporting ? (
                   <>
@@ -490,7 +490,7 @@ export default function DashboardPage() {
 
               <Link
                 to="/challans/new"
-                className="inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-[#F4F5F6] hover:bg-slate-200 text-[#36454F] font-bold text-xs border border-slate-200 shadow-2xs hover:shadow-xs transition-all duration-200 cursor-pointer active:scale-95"
+                className="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-[#F4F5F6] hover:bg-slate-200 text-[#36454F] font-bold text-xs border border-slate-200 shadow-2xs hover:shadow-xs transition-all duration-200 cursor-pointer active:scale-95"
                 title="Create a Non-Tax Delivery Challan"
               >
                 <Truck className="w-4 h-4 text-[#5C7A99]" />
@@ -499,7 +499,7 @@ export default function DashboardPage() {
 
               <Link
                 to="/invoice/new"
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] font-bold text-xs shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer active:scale-95"
+                className="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] font-bold text-xs shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer active:scale-95"
               >
                 <Plus className="w-4 h-4 stroke-[2.5]" />
                 <span>Create New Invoice</span>

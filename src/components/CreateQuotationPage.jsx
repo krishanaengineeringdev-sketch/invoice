@@ -615,7 +615,7 @@ export default function CreateQuotationPage() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block font-semibold text-[#36454F] mb-1">Inquiry / Ref No.</label>
                   <input
@@ -653,7 +653,7 @@ export default function CreateQuotationPage() {
           </div>
 
           <div className="overflow-x-auto rounded-xl border border-slate-200">
-            <table className="w-full text-left text-xs">
+            <table className="w-full min-w-[750px] text-left text-xs">
               <thead className="bg-[#36454F] text-white uppercase text-[10px] font-bold tracking-wider">
                 <tr>
                   <th className="px-3 py-3 text-center w-12">#</th>
@@ -684,11 +684,11 @@ export default function CreateQuotationPage() {
 
                       <td className="px-3 py-2.5">
                         <div className="space-y-1.5">
-                          <div className="inline-flex items-center p-0.5 bg-slate-100 rounded-lg border border-slate-200">
+                          <div className="inline-flex w-full sm:w-auto items-center p-0.5 bg-slate-100 rounded-lg border border-slate-200">
                             <button
                               type="button"
                               onClick={() => handleToggleRowMode(item.id, 'existing')}
-                              className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-all cursor-pointer ${
+                              className={`flex-1 sm:flex-initial px-2 py-1 text-[10px] font-bold rounded-md transition-all cursor-pointer text-center ${
                                 (item.mode || 'existing') === 'existing'
                                   ? 'bg-[#F2A104] text-[#36454F] shadow-xs'
                                   : 'text-[#5C7A99] hover:text-[#36454F]'
@@ -699,7 +699,7 @@ export default function CreateQuotationPage() {
                             <button
                               type="button"
                               onClick={() => handleToggleRowMode(item.id, 'new')}
-                              className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-all cursor-pointer ${
+                              className={`flex-1 sm:flex-initial px-2 py-1 text-[10px] font-bold rounded-md transition-all cursor-pointer text-center ${
                                 item.mode === 'new'
                                   ? 'bg-[#F2A104] text-[#36454F] shadow-xs'
                                   : 'text-[#5C7A99] hover:text-[#36454F]'
@@ -828,7 +828,7 @@ export default function CreateQuotationPage() {
             <button
               type="button"
               onClick={handleAddItem}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F4F5F6] hover:bg-[#5C7A99] text-[#5C7A99] hover:text-white font-bold text-xs transition-all duration-150 hover:scale-[1.02] active:scale-95 cursor-pointer border border-slate-200"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] rounded-xl bg-[#F4F5F6] hover:bg-[#5C7A99] text-[#5C7A99] hover:text-white font-bold text-xs transition-all duration-150 hover:scale-[1.02] active:scale-95 cursor-pointer border border-slate-200"
             >
               <Plus className="w-4 h-4" />
               <span>Add Row</span>
@@ -918,7 +918,7 @@ export default function CreateQuotationPage() {
         <div className="flex flex-col sm:flex-row items-center justify-end gap-4 pt-4 border-t border-slate-200">
           <Link
             to="/quotations"
-            className="w-full sm:w-auto text-center px-5 py-3 rounded-xl bg-white border border-slate-200 text-[#5C7A99] hover:text-[#36454F] font-bold text-xs transition-colors"
+            className="w-full sm:w-auto inline-flex items-center justify-center text-center px-5 py-3 min-h-[44px] rounded-xl bg-white border border-slate-200 text-[#5C7A99] hover:text-[#36454F] font-bold text-xs transition-colors"
           >
             Cancel
           </Link>
@@ -927,7 +927,7 @@ export default function CreateQuotationPage() {
             type="button"
             onClick={() => saveQuotationToSupabase(false)}
             disabled={isSaving}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-[#5C7A99] text-[#5C7A99] hover:bg-[#5C7A99] hover:text-white font-bold text-xs transition-all duration-150 hover:scale-[1.02] active:scale-95 cursor-pointer disabled:opacity-70"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] rounded-xl border-2 border-[#5C7A99] text-[#5C7A99] hover:bg-[#5C7A99] hover:text-white font-bold text-xs transition-all duration-150 hover:scale-[1.02] active:scale-95 cursor-pointer disabled:opacity-70"
           >
             {isSaving ? (
               <>

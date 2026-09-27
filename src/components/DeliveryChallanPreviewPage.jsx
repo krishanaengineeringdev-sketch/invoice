@@ -25,6 +25,7 @@ export default function DeliveryChallanPreviewPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [shareEmailData, setShareEmailData] = useState(null);
   const [error, setError] = useState(null);
+  const [isFullSize, setIsFullSize] = useState(false);
 
   useEffect(() => {
     const fetchChallanDetails = async () => {
@@ -197,8 +198,15 @@ export default function DeliveryChallanPreviewPage() {
             <span className="text-sm font-bold font-mono text-white">{challan.challan_no}</span>
           </div>
 
-          {/* Right Action Buttons */}
-          <div className="flex items-center gap-2">
+          {/* Mobile Challan Number Badge */}
+          <div className="md:hidden text-right">
+            <span className="text-xs font-bold font-mono text-[#F2A104] bg-white/10 px-2.5 py-1 rounded-lg">
+              {challan.challan_no}
+            </span>
+          </div>
+
+          {/* Desktop Right Action Buttons */}
+          <div className="hidden md:flex items-center gap-2">
             {/* Convert to Invoice */}
             {challan.status !== 'converted' && (
               <button
@@ -232,7 +240,7 @@ export default function DeliveryChallanPreviewPage() {
             {/* WhatsApp */}
             <button
               onClick={handleWhatsAppShare}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all duration-150 hover:scale-[1.02] active:scale-95 cursor-pointer shadow-xs hidden sm:inline-flex"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all duration-150 hover:scale-[1.02] active:scale-95 cursor-pointer shadow-xs"
               title="Share summary via WhatsApp"
             >
               <MessageCircle className="w-3.5 h-3.5" />
@@ -242,7 +250,7 @@ export default function DeliveryChallanPreviewPage() {
             {/* Email */}
             <button
               onClick={handleEmailShare}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold transition-all duration-150 hover:scale-[1.02] active:scale-95 cursor-pointer shadow-xs hidden sm:inline-flex"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold transition-all duration-150 hover:scale-[1.02] active:scale-95 cursor-pointer shadow-xs"
               title="Share summary via Email"
             >
               <Mail className="w-3.5 h-3.5" />
@@ -253,10 +261,71 @@ export default function DeliveryChallanPreviewPage() {
         </div>
       </header>
 
+      {/* Mobile Action Buttons 2x2 Grid (Visible only on < md screens) */}
+      <div className="md:hidden max-w-6xl w-full mx-auto px-3 pt-3 space-y-2 print:hidden">
+        {challan.status !== 'converted' && (
+          <button
+            onClick={handleConvertToInvoice}
+            className="w-full min-h-[44px] inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
+          >
+            <FileCheck className="w-4 h-4" />
+            <span>Convert to Official GST Invoice</span>
+          </button>
+        )}
+        <div className="grid grid-cols-2 gap-2 bg-white p-3 rounded-2xl shadow-xs border border-slate-200/80">
+          <button
+            onClick={() => navigate(`/challan/${id}/edit`)}
+            className="min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#5C7A99] hover:bg-[#4a6480] text-white text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
+          >
+            <Pencil className="w-3.5 h-3.5" />
+            <span>Edit Challan</span>
+          </button>
+          <button
+            onClick={handlePrint}
+            className="min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
+          >
+            <Printer className="w-3.5 h-3.5" />
+            <span>Print / PDF</span>
+          </button>
+          <button
+            onClick={handleWhatsAppShare}
+            className="min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
+            title="Share summary via WhatsApp"
+          >
+            <MessageCircle className="w-3.5 h-3.5" />
+            <span>WhatsApp</span>
+          </button>
+          <button
+            onClick={handleEmailShare}
+            className="min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
+            title="Share summary via Email"
+          >
+            <Mail className="w-3.5 h-3.5" />
+            <span>Email</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile View Mode Hint & Toggle (Fit to Screen vs Actual Size) */}
+      <div className="md:hidden max-w-6xl w-full mx-auto px-4 pt-2.5 flex items-center justify-between text-[11px] text-[#5C7A99] print:hidden">
+        <span className="font-semibold">
+          {isFullSize ? 'Viewing: 100% Full Size (Scrollable)' : 'Viewing: Scaled to Screen'}
+        </span>
+        <button
+          type="button"
+          onClick={() => setIsFullSize(!isFullSize)}
+          className="font-bold text-[#36454F] hover:text-[#F2A104] bg-white px-2.5 py-1 rounded-lg border border-slate-200 shadow-2xs cursor-pointer min-h-[36px] flex items-center gap-1 active:scale-95 transition-all"
+        >
+          {isFullSize ? 'Fit to Screen' : '100% Full Size'}
+        </button>
+      </div>
+
       {/* Main Printable Delivery Challan Document Container */}
-      <main className="flex-1 w-full mx-auto p-4 sm:p-6 lg:p-8 print:p-0 flex justify-center overflow-x-auto">
-        <div className="invoice-preview-shell">
-          <InvoiceTemplate data={challan} type="challan" />
+      <main className="flex-1 w-full mx-auto p-2 sm:p-6 lg:p-8 print:p-0">
+        <div className="w-full overflow-x-auto md:overflow-visible flex justify-center">
+          <div className={`invoice-scale-wrapper ${isFullSize ? 'full-size' : ''}`}>
+            <InvoiceTemplate data={challan} type="challan" />
+          </div>
         </div>
       </main>
 

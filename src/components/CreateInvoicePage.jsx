@@ -994,7 +994,7 @@ export default function CreateInvoicePage() {
           </div>
 
           <div className="overflow-x-auto rounded-xl border border-slate-200">
-            <table className="w-full text-left text-xs">
+            <table className="w-full min-w-[750px] text-left text-xs">
               <thead className="bg-[#36454F] text-white uppercase text-[10px] font-bold tracking-wider">
                 <tr>
                   <th className="px-3 py-3 text-center w-12">Sl No.</th>
@@ -1030,11 +1030,11 @@ export default function CreateInvoicePage() {
                         <div className="space-y-1.5">
                           
                           {/* Mode Toggle Switch: Select Existing vs Type New */}
-                          <div className="inline-flex items-center p-0.5 bg-slate-100 rounded-lg border border-slate-200">
+                          <div className="inline-flex w-full sm:w-auto items-center p-0.5 bg-slate-100 rounded-lg border border-slate-200">
                             <button
                               type="button"
                               onClick={() => handleToggleRowMode(item.id, 'existing')}
-                              className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-all cursor-pointer ${
+                              className={`flex-1 sm:flex-initial px-2 py-1 text-[10px] font-bold rounded-md transition-all cursor-pointer text-center ${
                                 (item.mode || 'existing') === 'existing'
                                   ? 'bg-[#F2A104] text-[#36454F] shadow-xs'
                                   : 'text-[#5C7A99] hover:text-[#36454F]'
@@ -1045,7 +1045,7 @@ export default function CreateInvoicePage() {
                             <button
                               type="button"
                               onClick={() => handleToggleRowMode(item.id, 'new')}
-                              className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-all cursor-pointer ${
+                              className={`flex-1 sm:flex-initial px-2 py-1 text-[10px] font-bold rounded-md transition-all cursor-pointer text-center ${
                                 item.mode === 'new'
                                   ? 'bg-[#F2A104] text-[#36454F] shadow-xs'
                                   : 'text-[#5C7A99] hover:text-[#36454F]'
@@ -1191,7 +1191,7 @@ export default function CreateInvoicePage() {
             <button
               type="button"
               onClick={handleAddItem}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F4F5F6] hover:bg-[#5C7A99] text-[#5C7A99] hover:text-white font-bold text-xs transition-all duration-150 hover:scale-[1.02] active:scale-95 cursor-pointer border border-slate-200"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] rounded-xl bg-[#F4F5F6] hover:bg-[#5C7A99] text-[#5C7A99] hover:text-white font-bold text-xs transition-all duration-150 hover:scale-[1.02] active:scale-95 cursor-pointer border border-slate-200"
             >
               <Plus className="w-4 h-4" />
               <span>Add Row</span>
@@ -1354,7 +1354,7 @@ export default function CreateInvoicePage() {
             type="button"
             onClick={handleSaveDraft}
             disabled={isSaving}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-[#5C7A99] text-[#5C7A99] hover:bg-[#5C7A99] hover:text-white font-bold text-xs transition-all duration-200 cursor-pointer shadow-2xs disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] rounded-xl border-2 border-[#5C7A99] text-[#5C7A99] hover:bg-[#5C7A99] hover:text-white font-bold text-xs transition-all duration-200 cursor-pointer shadow-2xs disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {isSaving ? (
               <>
@@ -1373,7 +1373,7 @@ export default function CreateInvoicePage() {
             type="button"
             onClick={handleDownloadPdf}
             disabled={isSaving}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] font-extrabold text-xs shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 min-h-[44px] rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] font-extrabold text-xs shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {isSaving ? (
               <>

@@ -415,7 +415,7 @@ export default function CreateDeliveryChallanPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F4F5F6] flex flex-col font-sans text-[#36454F]">
+    <div className="min-h-screen bg-[#F4F5F6] flex flex-col font-sans text-[#36454F] overflow-x-hidden">
       <Navbar activeTab="challans" />
 
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
@@ -425,7 +425,7 @@ export default function CreateDeliveryChallanPage() {
           <div className="flex items-center gap-3">
             <Link
               to="/challans"
-              className="p-2 rounded-xl bg-white border border-slate-200 text-[#5C7A99] hover:text-[#36454F] hover:bg-slate-50 transition-colors shadow-xs"
+              className="p-2.5 min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl bg-white border border-slate-200 text-[#5C7A99] hover:text-[#36454F] hover:bg-slate-50 transition-colors shadow-xs"
             >
               <ArrowLeft className="w-4 h-4" />
             </Link>
@@ -444,12 +444,12 @@ export default function CreateDeliveryChallanPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
             <button
               type="button"
               onClick={() => handleSaveChallan(false)}
               disabled={isSaving}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#36454F] hover:bg-[#2c3840] text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 min-h-[44px] rounded-xl bg-[#36454F] hover:bg-[#2c3840] text-white text-xs font-bold transition-all shadow-xs cursor-pointer disabled:opacity-70"
             >
               {isSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5 text-[#F2A104]" />}
               <span>Save Challan</span>
@@ -459,7 +459,7 @@ export default function CreateDeliveryChallanPage() {
               type="button"
               onClick={() => handleSaveChallan(true)}
               disabled={isSaving}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] text-xs font-bold transition-all shadow-sm hover:scale-[1.02] active:scale-95 cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 min-h-[44px] rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] text-xs font-bold transition-all shadow-sm hover:scale-[1.02] active:scale-95 cursor-pointer disabled:opacity-70"
             >
               {isSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <FileText className="w-3.5 h-3.5" />}
               <span>Save & Preview</span>
@@ -733,7 +733,7 @@ export default function CreateDeliveryChallanPage() {
             </div>
 
             <div className="overflow-x-auto rounded-xl border border-slate-200">
-              <table className="w-full text-left text-xs">
+              <table className="w-full min-w-[700px] text-left text-xs">
                 <thead className="bg-[#36454F] text-white uppercase text-[10px] font-bold tracking-wider">
                   <tr>
                     <th className="px-3 py-3 text-center w-12">#</th>
@@ -765,11 +765,11 @@ export default function CreateDeliveryChallanPage() {
                         <td className="px-4 py-2.5">
                           <div className="space-y-1.5">
                             {/* Mode Toggle Switch */}
-                            <div className="inline-flex items-center p-0.5 bg-slate-100 rounded-lg border border-slate-200">
+                            <div className="inline-flex w-full sm:w-auto items-center p-0.5 bg-slate-100 rounded-lg border border-slate-200">
                               <button
                                 type="button"
                                 onClick={() => handleToggleRowMode(item.id, 'existing')}
-                                className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-all cursor-pointer ${
+                                className={`flex-1 sm:flex-initial px-2 py-1 text-[10px] font-bold rounded-md transition-all cursor-pointer text-center ${
                                   (item.mode || 'existing') === 'existing'
                                     ? 'bg-[#F2A104] text-[#36454F] shadow-xs'
                                     : 'text-[#5C7A99] hover:text-[#36454F]'
@@ -780,7 +780,7 @@ export default function CreateDeliveryChallanPage() {
                               <button
                                 type="button"
                                 onClick={() => handleToggleRowMode(item.id, 'new')}
-                                className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-all cursor-pointer ${
+                                className={`flex-1 sm:flex-initial px-2 py-1 text-[10px] font-bold rounded-md transition-all cursor-pointer text-center ${
                                   item.mode === 'new'
                                     ? 'bg-[#F2A104] text-[#36454F] shadow-xs'
                                     : 'text-[#5C7A99] hover:text-[#36454F]'
@@ -883,17 +883,17 @@ export default function CreateDeliveryChallanPage() {
               </table>
             </div>
 
-            <div className="flex items-center justify-between pt-2">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
               <button
                 type="button"
                 onClick={handleAddItem}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#36454F] text-xs font-bold transition-colors cursor-pointer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 min-h-[44px] rounded-xl bg-slate-100 hover:bg-slate-200 text-[#36454F] text-xs font-bold transition-colors cursor-pointer"
               >
                 <Plus className="w-4 h-4 text-[#F2A104]" />
                 <span>Add Another Item</span>
               </button>
 
-              <div className="text-xs font-medium text-slate-500">
+              <div className="text-xs font-medium text-slate-500 self-end sm:self-auto">
                 Total Quantity:{' '}
                 <span className="font-mono font-bold text-[#36454F]">
                   {items.reduce((acc, curr) => acc + (parseFloat(curr.quantity) || 0), 0)}
@@ -902,6 +902,36 @@ export default function CreateDeliveryChallanPage() {
             </div>
           </section>
 
+        </div>
+
+        {/* Bottom Action Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-end gap-3 pt-4 border-t border-slate-200">
+          <Link
+            to="/challans"
+            className="w-full sm:w-auto inline-flex items-center justify-center text-center px-5 py-3 min-h-[44px] rounded-xl bg-white border border-slate-200 text-[#5C7A99] hover:text-[#36454F] font-bold text-xs transition-colors"
+          >
+            Cancel
+          </Link>
+
+          <button
+            type="button"
+            onClick={() => handleSaveChallan(false)}
+            disabled={isSaving}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-6 py-3 min-h-[44px] rounded-xl bg-[#36454F] hover:bg-[#2c3840] text-white text-xs font-bold transition-all shadow-xs cursor-pointer disabled:opacity-70"
+          >
+            {isSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5 text-[#F2A104]" />}
+            <span>Save Challan</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleSaveChallan(true)}
+            disabled={isSaving}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-6 py-3 min-h-[44px] rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] text-xs font-bold transition-all shadow-sm hover:scale-[1.02] active:scale-95 cursor-pointer disabled:opacity-70"
+          >
+            {isSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <FileText className="w-3.5 h-3.5" />}
+            <span>Save & Preview</span>
+          </button>
         </div>
 
       </main>

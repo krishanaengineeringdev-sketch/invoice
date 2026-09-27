@@ -312,7 +312,7 @@ export default function QuotationListPage() {
 
           <Link
             to="/quotations/new"
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] font-extrabold text-xs shadow-md hover:shadow-lg transition-all duration-150 hover:scale-[1.02] active:scale-95 cursor-pointer self-start sm:self-auto"
+            className="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] font-extrabold text-xs shadow-md hover:shadow-lg transition-all duration-150 hover:scale-[1.02] active:scale-95 cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>Create New Quotation</span>
@@ -564,10 +564,10 @@ export default function QuotationListPage() {
                       ₹ {parseFloat(item.total_amount || 0).toLocaleString('en-IN')}
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-1.5">
                       <Link
                         to={`/quotation/${item.id}`}
-                        className="px-3 py-1.5 rounded-lg bg-[#F4F5F6] text-[#36454F] font-bold text-xs"
+                        className="px-3 py-2 rounded-lg bg-[#F4F5F6] text-[#36454F] font-bold text-xs min-h-[44px] flex items-center justify-center"
                       >
                         View
                       </Link>
@@ -580,7 +580,7 @@ export default function QuotationListPage() {
                           amount: item.total_amount,
                           buyerName: item.clients?.name || ''
                         })}
-                        className="p-1.5 rounded-lg text-emerald-600 hover:bg-emerald-50 transition-colors cursor-pointer"
+                        className="p-2.5 rounded-lg text-emerald-600 hover:bg-emerald-50 transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
                         title="Share via WhatsApp"
                       >
                         <MessageCircle className="w-4 h-4" />
@@ -595,7 +595,7 @@ export default function QuotationListPage() {
                           buyerName: item.clients?.name || '',
                           buyerEmail: item.clients?.email || ''
                         })}
-                        className="p-1.5 rounded-lg text-sky-600 hover:bg-sky-50 transition-colors cursor-pointer"
+                        className="p-2.5 rounded-lg text-sky-600 hover:bg-sky-50 transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
                         title="Share via Email"
                       >
                         <Mail className="w-4 h-4" />
@@ -604,7 +604,7 @@ export default function QuotationListPage() {
                       {item.status !== 'converted' && (
                         <button
                           onClick={() => setQuotationToConvert(item)}
-                          className="px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-bold text-xs"
+                          className="px-3 py-2 rounded-lg bg-indigo-600 text-white font-bold text-xs min-h-[44px] flex items-center justify-center"
                         >
                           Convert
                         </button>

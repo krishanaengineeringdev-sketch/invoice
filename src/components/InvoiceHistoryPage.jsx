@@ -324,7 +324,7 @@ export default function InvoiceHistoryPage() {
           <button
             onClick={handleExportTally}
             disabled={isExporting || isLoading}
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#5C7A99] hover:bg-[#4a637d] text-white font-bold text-xs shadow-sm hover:shadow-md transition-all cursor-pointer self-start sm:self-auto active:scale-95 disabled:opacity-50"
+            className="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#5C7A99] hover:bg-[#4a637d] text-white font-bold text-xs shadow-sm hover:shadow-md transition-all cursor-pointer active:scale-95 disabled:opacity-50"
           >
             {isExporting ? (
               <>
@@ -465,24 +465,24 @@ export default function InvoiceHistoryPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-end gap-1 pt-2 border-t border-slate-100">
+                  <div className="flex flex-wrap items-center justify-end gap-1.5 pt-2 border-t border-slate-100">
                     <button
                       onClick={() => navigate(`/invoice/${inv.id}`)}
-                      className="p-1.5 text-[#5C7A99] hover:text-[#36454F] hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+                      className="p-2 text-[#5C7A99] hover:text-[#36454F] hover:bg-slate-100 rounded-lg transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
                       title="View Invoice"
                     >
                       <Eye className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => navigate(`/invoice/${inv.id}/edit`)}
-                      className="p-1.5 text-[#5C7A99] hover:text-[#36454F] hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+                      className="p-2 text-[#5C7A99] hover:text-[#36454F] hover:bg-slate-100 rounded-lg transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
                       title="Edit Invoice"
                     >
                       <Pencil className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => handleReprint(inv)}
-                      className="p-1.5 text-[#5C7A99] hover:text-[#36454F] hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+                      className="p-2 text-[#5C7A99] hover:text-[#36454F] hover:bg-slate-100 rounded-lg transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
                       title="Reprint Invoice"
                     >
                       <Printer className="w-4 h-4" />
@@ -495,7 +495,7 @@ export default function InvoiceHistoryPage() {
                         amount: inv.total_amount,
                         buyerName: inv.clients?.name || inv.client_name || ''
                       })}
-                      className="p-1.5 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors cursor-pointer"
+                      className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
                       title="Share via WhatsApp"
                     >
                       <MessageCircle className="w-4 h-4" />
@@ -509,7 +509,7 @@ export default function InvoiceHistoryPage() {
                         buyerName: inv.clients?.name || inv.client_name || '',
                         buyerEmail: inv.clients?.email || ''
                       })}
-                      className="p-1.5 text-sky-600 hover:bg-sky-50 rounded-lg transition-colors cursor-pointer"
+                      className="p-2 text-sky-600 hover:bg-sky-50 rounded-lg transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
                       title="Share via Email"
                     >
                       <Mail className="w-4 h-4" />
@@ -519,7 +519,7 @@ export default function InvoiceHistoryPage() {
                         setInvoiceToDelete(inv);
                         setDeleteError(null);
                       }}
-                      className="p-1.5 text-[#5C7A99] hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
+                      className="p-2 text-[#5C7A99] hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
                       title="Delete Invoice"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -787,62 +787,61 @@ export default function InvoiceHistoryPage() {
               </tbody>
             </table>
           </div>
+        </div>
 
-          {/* Pagination Controls Footer */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-[#F4F5F6] border-t border-slate-200 text-xs">
-            <div className="text-[#5C7A99] font-medium">
-              Showing <span className="font-bold text-[#36454F]">
-                {filteredAndSortedInvoices.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0}
-              </span> to <span className="font-bold text-[#36454F]">
-                {Math.min(currentPage * itemsPerPage, filteredAndSortedInvoices.length)}
-              </span> of <span className="font-bold text-[#36454F]">{filteredAndSortedInvoices.length}</span> entries
-            </div>
-
-            {/* Pagination Navigation */}
-            <div className="flex items-center gap-1.5">
-              <button
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-                className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors ${
-                  currentPage === 1
-                    ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed'
-                    : 'bg-white text-[#36454F] border-slate-200 hover:bg-slate-50 cursor-pointer'
-                }`}
-              >
-                <ChevronLeft className="w-4 h-4" />
-                <span>Previous</span>
-              </button>
-
-              {/* Page Number Buttons */}
-              {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`w-8 h-8 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
-                    currentPage === page
-                      ? 'bg-[#36454F] text-[#F2A104]'
-                      : 'bg-white text-[#36454F] border border-slate-200 hover:bg-slate-100'
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
-
-              <button
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                disabled={currentPage === totalPages || totalPages === 0}
-                className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors ${
-                  currentPage === totalPages || totalPages === 0
-                    ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed'
-                    : 'bg-white text-[#36454F] border-slate-200 hover:bg-slate-50 cursor-pointer'
-                }`}
-              >
-                <span>Next</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
+        {/* Pagination Controls Footer (Accessible on both Mobile and Desktop) */}
+        <div className="bg-white rounded-2xl shadow-xs border border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 text-xs">
+          <div className="text-[#5C7A99] font-medium text-center sm:text-left">
+            Showing <span className="font-bold text-[#36454F]">
+              {filteredAndSortedInvoices.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0}
+            </span> to <span className="font-bold text-[#36454F]">
+              {Math.min(currentPage * itemsPerPage, filteredAndSortedInvoices.length)}
+            </span> of <span className="font-bold text-[#36454F]">{filteredAndSortedInvoices.length}</span> entries
           </div>
 
+          {/* Pagination Navigation */}
+          <div className="flex flex-wrap items-center justify-center gap-1.5">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className={`inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-bold border transition-colors min-h-[44px] ${
+                currentPage === 1
+                  ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed'
+                  : 'bg-white text-[#36454F] border-slate-200 hover:bg-slate-50 cursor-pointer'
+              }`}
+            >
+              <ChevronLeft className="w-4 h-4" />
+              <span>Previous</span>
+            </button>
+
+            {/* Page Number Buttons */}
+            {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`min-w-[44px] min-h-[44px] rounded-xl text-xs font-bold transition-colors cursor-pointer flex items-center justify-center ${
+                  currentPage === page
+                    ? 'bg-[#36454F] text-[#F2A104]'
+                    : 'bg-white text-[#36454F] border border-slate-200 hover:bg-slate-100'
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+
+            <button
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages || totalPages === 0}
+              className={`inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-bold border transition-colors min-h-[44px] ${
+                currentPage === totalPages || totalPages === 0
+                  ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed'
+                  : 'bg-white text-[#36454F] border-slate-200 hover:bg-slate-50 cursor-pointer'
+              }`}
+            >
+              <span>Next</span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
       </main>

@@ -284,10 +284,10 @@ export default function MaterialsPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 w-full sm:w-auto">
             <button
               onClick={handleOpenCreateModal}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] font-bold text-xs shadow-md transition-colors cursor-pointer"
+              className="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] font-bold text-xs shadow-md transition-colors cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>Add Material</span>
@@ -491,14 +491,14 @@ export default function MaterialsPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-[#36454F]/60 backdrop-blur-xs flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 bg-[#36454F]/60 backdrop-blur-xs flex items-center justify-center p-0 sm:p-4 overflow-y-auto"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.2 }}
-              className="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-lg w-full p-6 space-y-5"
+              className="bg-white rounded-none sm:rounded-2xl shadow-2xl border-0 sm:border border-slate-200 w-full h-full sm:h-auto sm:max-w-lg p-5 sm:p-6 space-y-5 overflow-y-auto flex flex-col justify-between sm:justify-start"
             >
               
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -512,7 +512,7 @@ export default function MaterialsPage() {
                 </div>
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="p-1 rounded-lg text-slate-400 hover:text-[#36454F] hover:bg-slate-100 transition-colors"
+                  className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-slate-400 hover:text-[#36454F] hover:bg-slate-100 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -591,18 +591,18 @@ export default function MaterialsPage() {
 
                 </div>
 
-                <div className="pt-3 flex items-center justify-end gap-3 border-t border-slate-100">
+                <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2.5 border-t border-slate-100">
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
-                    className="px-4 py-2 rounded-xl bg-slate-100 text-[#5C7A99] font-bold text-xs hover:bg-slate-200 transition-all duration-150 active:scale-95"
+                    className="w-full sm:w-auto min-h-[44px] px-4 py-2.5 rounded-xl bg-slate-100 text-[#5C7A99] font-bold text-xs hover:bg-slate-200 transition-all duration-150 active:scale-95 flex items-center justify-center cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={isSaving}
-                    className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] font-bold text-xs shadow-md transition-all duration-150 hover:scale-[1.02] active:scale-95 cursor-pointer"
+                    className="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] font-bold text-xs shadow-md transition-all duration-150 hover:scale-[1.02] active:scale-95 cursor-pointer"
                   >
                     {isSaving ? (
                       <>

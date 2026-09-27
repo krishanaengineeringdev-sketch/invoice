@@ -212,7 +212,7 @@ export default function DeliveryChallanListPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F5F6] flex flex-col font-sans text-[#36454F]">
+    <div className="min-h-screen bg-[#F4F5F6] flex flex-col font-sans text-[#36454F] overflow-x-hidden">
       <Navbar activeTab="challans" />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
@@ -244,7 +244,7 @@ export default function DeliveryChallanListPage() {
 
             <Link
               to="/challans/new"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] text-xs font-bold transition-all shadow-sm hover:scale-[1.02] active:scale-95 cursor-pointer"
+              className="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] text-xs font-bold transition-all shadow-sm hover:scale-[1.02] active:scale-95 cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>Create Delivery Challan</span>
@@ -253,7 +253,7 @@ export default function DeliveryChallanListPage() {
         </div>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80">
             <span className="text-[10px] uppercase font-bold text-[#5C7A99] tracking-wider block mb-1">Total Challans</span>
             <span className="text-2xl font-extrabold text-[#36454F] font-mono">{totalChallans}</span>
@@ -285,17 +285,17 @@ export default function DeliveryChallanListPage() {
               placeholder="Search by Challan No., Buyer, or Vehicle No..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 rounded-xl bg-[#F4F5F6] border border-slate-200 text-xs focus:outline-hidden focus:border-[#F2A104] focus:bg-white transition-all text-[#36454F] font-medium"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F4F5F6] border border-slate-200 text-xs focus:outline-hidden focus:border-[#F2A104] focus:bg-white transition-all text-[#36454F] font-medium"
             />
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
+            <div className="flex items-center justify-between sm:justify-start gap-1.5 flex-1">
               <span className="text-[11px] font-bold text-[#5C7A99]">Purpose:</span>
               <select
                 value={filterPurpose}
                 onChange={(e) => setFilterPurpose(e.target.value)}
-                className="py-1.5 px-3 rounded-xl bg-[#F4F5F6] border border-slate-200 text-xs font-semibold text-[#36454F] focus:outline-hidden focus:border-[#F2A104]"
+                className="w-full sm:w-auto py-2 px-3 rounded-xl bg-[#F4F5F6] border border-slate-200 text-xs font-semibold text-[#36454F] focus:outline-hidden focus:border-[#F2A104] min-h-[44px]"
               >
                 <option value="All">All Purposes</option>
                 <option value="Job Work">Job Work</option>
@@ -306,12 +306,12 @@ export default function DeliveryChallanListPage() {
               </select>
             </div>
 
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center justify-between sm:justify-start gap-1.5 flex-1">
               <span className="text-[11px] font-bold text-[#5C7A99]">Status:</span>
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="py-1.5 px-3 rounded-xl bg-[#F4F5F6] border border-slate-200 text-xs font-semibold text-[#36454F] focus:outline-hidden focus:border-[#F2A104]"
+                className="w-full sm:w-auto py-2 px-3 rounded-xl bg-[#F4F5F6] border border-slate-200 text-xs font-semibold text-[#36454F] focus:outline-hidden focus:border-[#F2A104] min-h-[44px]"
               >
                 <option value="All">All Status</option>
                 <option value="pending">Pending</option>
@@ -362,8 +362,10 @@ export default function DeliveryChallanListPage() {
               </Link>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+            <>
+              {/* Desktop Table View */}
+              <div className="hidden md:block overflow-x-auto">
+                <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-[#36454F] text-white uppercase text-[10px] font-bold tracking-wider">
                     <th className="py-3 px-4">Challan No.</th>
@@ -481,7 +483,92 @@ export default function DeliveryChallanListPage() {
                 </tbody>
               </table>
             </div>
-          )}
+
+            {/* Mobile Stacked Cards View */}
+            <div className="md:hidden divide-y divide-slate-100">
+              {filteredChallans.map((challan) => {
+                const itemCount = challan.delivery_challan_items?.length || 0;
+                return (
+                  <div key={challan.id} className="p-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <Link to={`/challan/${challan.id}`} className="font-mono font-bold text-xs text-[#36454F] hover:text-[#F2A104]">
+                        {challan.challan_no}
+                      </Link>
+                      <div className="flex items-center gap-1.5">
+                        {getPurposeBadge(challan.purpose)}
+                        {getStatusBadge(challan.status)}
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="font-bold text-sm text-[#36454F]">
+                        {challan.clients?.name || 'Customer / Consignee'}
+                      </div>
+                      <div className="text-xs text-[#5C7A99] flex flex-wrap items-center gap-3">
+                        <span>Date: {formatDate(challan.challan_date)}</span>
+                        {challan.vehicle_no && <span>Vehicle: {challan.vehicle_no}</span>}
+                        <span>{itemCount} {itemCount === 1 ? 'item' : 'items'}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap items-center justify-end gap-1.5 pt-2 border-t border-slate-100">
+                      {challan.status !== 'converted' && (
+                        <button
+                          onClick={() => handleConvertToInvoice(challan)}
+                          className="px-2.5 py-2 rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors border border-indigo-200 text-xs font-bold flex items-center gap-1 min-h-[44px]"
+                          title="Convert to GST Invoice"
+                        >
+                          <FileCheck className="w-4 h-4" />
+                          <span>Convert</span>
+                        </button>
+                      )}
+
+                      <Link
+                        to={`/challan/${challan.id}`}
+                        className="p-2.5 rounded-lg bg-slate-100 text-[#5C7A99] hover:bg-slate-200 hover:text-[#36454F] transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+                        title="View Challan"
+                      >
+                        <Eye className="w-4 h-4" />
+                      </Link>
+
+                      <Link
+                        to={`/challan/${challan.id}/edit`}
+                        className="p-2.5 rounded-lg bg-slate-100 text-[#5C7A99] hover:bg-slate-200 hover:text-[#36454F] transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+                        title="Edit Challan"
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </Link>
+
+                      <button
+                        onClick={() => handleWhatsAppShare(challan)}
+                        className="p-2.5 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+                        title="Share via WhatsApp"
+                      >
+                        <MessageCircle className="w-4 h-4" />
+                      </button>
+
+                      <button
+                        onClick={() => handleEmailShare(challan)}
+                        className="p-2.5 rounded-lg bg-sky-50 text-sky-600 hover:bg-sky-100 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+                        title="Share via Email"
+                      >
+                        <Mail className="w-4 h-4" />
+                      </button>
+
+                      <button
+                        onClick={() => setChallanToDelete(challan)}
+                        className="p-2.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+                        title="Delete Challan"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
         </div>
 
       </main>
