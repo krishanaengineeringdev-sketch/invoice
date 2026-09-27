@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './InvoiceTemplate.css';
 import { numberToWords } from '../utils/numberToWords';
+import { supabase } from '../lib/supabaseClient';
 
 export function formatDateDMY(dateStr) {
   if (!dateStr) return '';
@@ -29,6 +30,41 @@ export function formatDateDMY(dateStr) {
 export default function InvoiceTemplate({ data = {}, type = 'invoice' }) {
   const isQuotation = type === 'quotation';
   const isChallan = type === 'challan';
+
+  const [companyEmail, setCompanyEmail] = useState(
+    data.company_email || data.company_profile?.email || 'krishnaengg1966@gmail.com'
+  );
+
+  useEffect(() => {
+    let isMounted = true;
+
+    if (data.company_email || data.company_profile?.email) {
+      setCompanyEmail(data.company_email || data.company_profile?.email);
+      return;
+    }
+
+    async function fetchCompanyEmail() {
+      try {
+        const { data: profile, error } = await supabase
+          .from('company_profile')
+          .select('email')
+          .limit(1)
+          .maybeSingle();
+
+        if (!error && profile?.email && isMounted) {
+          setCompanyEmail(profile.email);
+        }
+      } catch (err) {
+        console.warn('Could not load company_profile email:', err);
+      }
+    }
+
+    fetchCompanyEmail();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [data.company_email, data.company_profile?.email]);
 
   // Buyer client resolution (supports both object or array relation)
   const client = Array.isArray(data.clients) ? data.clients[0] : (data.clients || {});
@@ -153,6 +189,8 @@ export default function InvoiceTemplate({ data = {}, type = 'invoice' }) {
             <strong>GSTIN/UIN:</strong> 33AKDPD9814C1ZN
             <br />
             <strong>CONTACT:</strong> 9443821192, 8122813780
+            <br />
+            <strong>EMAIL:</strong> {companyEmail}
           </div>
 
         </div>

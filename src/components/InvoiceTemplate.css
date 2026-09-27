@@ -77,7 +77,7 @@
 .supplier-box {
   position: relative;
 
-  min-height: 42mm;
+  min-height: 44mm;
 
   padding: 5px 7px;
 
@@ -774,7 +774,7 @@ table {
 }
 
 .invoice.compact-table .supplier-box {
-  min-height: 40mm;
+  min-height: 42mm;
 }
 
 .invoice.compact-table .buyer-details {
@@ -815,7 +815,7 @@ table {
 }
 
 .invoice.ultra-compact-table .supplier-box {
-  min-height: 39mm;
+  min-height: 41mm;
 }
 
 .invoice.ultra-compact-table .buyer-details {
@@ -857,7 +857,7 @@ table {
 }
 
 .invoice.super-compact-table .supplier-box {
-  min-height: 38mm;
+  min-height: 40mm;
 }
 
 .invoice.super-compact-table .company-logo {
