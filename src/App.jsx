@@ -10,6 +10,9 @@ import MaterialsPage from './components/MaterialsPage';
 import QuotationListPage from './components/QuotationListPage';
 import CreateQuotationPage from './components/CreateQuotationPage';
 import QuotationPreviewPage from './components/QuotationPreviewPage';
+import DeliveryChallanListPage from './components/DeliveryChallanListPage';
+import CreateDeliveryChallanPage from './components/CreateDeliveryChallanPage';
+import DeliveryChallanPreviewPage from './components/DeliveryChallanPreviewPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
@@ -34,6 +37,12 @@ export default function App() {
             <Route path="/quotations/new" element={<CreateQuotationPage />} />
             <Route path="/quotation/:id" element={<QuotationPreviewPage />} />
             <Route path="/quotation/:id/edit" element={<CreateQuotationPage />} />
+
+            {/* Delivery Challans Routes */}
+            <Route path="/challans" element={<DeliveryChallanListPage />} />
+            <Route path="/challans/new" element={<CreateDeliveryChallanPage />} />
+            <Route path="/challan/:id" element={<DeliveryChallanPreviewPage />} />
+            <Route path="/challan/:id/edit" element={<CreateDeliveryChallanPage />} />
           </Route>
 
           {/* Fallback route */}

@@ -11,7 +11,8 @@ import {
   LayoutDashboard, 
   FileText, 
   Boxes,
-  ClipboardList
+  ClipboardList,
+  Truck
 } from 'lucide-react';
 
 export default function Navbar({ activeTab, customActions }) {
@@ -32,6 +33,7 @@ export default function Navbar({ activeTab, customActions }) {
   const navLinks = [
     { id: 'dashboard', label: 'Dashboard', to: '/dashboard', icon: LayoutDashboard },
     { id: 'quotations', label: 'Quotations', to: '/quotations', icon: ClipboardList },
+    { id: 'challans', label: 'Delivery Challans', to: '/challans', icon: Truck },
     { id: 'invoices', label: 'Invoice History', to: '/invoices', icon: FileText },
     { id: 'materials', label: 'Materials', to: '/materials', icon: Boxes },
   ];
@@ -44,9 +46,11 @@ export default function Navbar({ activeTab, customActions }) {
           {/* Logo & Main Title (Left) */}
           <div className="flex items-center gap-4 sm:gap-6">
             <Link to="/dashboard" className="flex items-center gap-2.5 sm:gap-3 group">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#F2A104] flex items-center justify-center text-[#36454F] font-bold shadow-xs group-hover:scale-105 transition-transform shrink-0">
-                <Building2 className="w-5 h-5 sm:w-6 sm:h-6" />
-              </div>
+              <img 
+                src="/logo.png" 
+                alt="Krishna Engineering" 
+                className="h-9 sm:h-10 w-auto object-contain rounded-lg shadow-xs group-hover:scale-105 transition-transform shrink-0 bg-white p-0.5" 
+              />
               <div className="min-w-0">
                 <h1 className="text-base sm:text-xl font-bold tracking-tight text-white font-heading truncate">
                   Krishna Engineering

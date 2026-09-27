@@ -1,0 +1,900 @@
+/* =========================================
+   GLOBAL
+========================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+/* =========================================
+   A4 INVOICE
+========================================= */
+
+.invoice {
+  width: 210mm;
+  min-height: 295mm;
+  margin: auto;
+  background: #fff;
+
+  padding: 8mm 10mm 7mm;
+
+  border: 1px solid #222;
+
+  font-size: 10px;
+  line-height: 1.25;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #111;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.invoice * {
+  box-sizing: border-box;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.invoice-title {
+  position: relative;
+
+  height: 10mm;
+
+  border: 1px solid #222;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.original-copy {
+  position: absolute;
+  right: 8px;
+  top: 4px;
+
+  font-size: 8px;
+  font-weight: 700;
+}
+
+/* =========================================
+   SUPPLIER SECTION
+========================================= */
+
+.top-section {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+
+  border-left: 1px solid #222;
+  border-right: 1px solid #222;
+  border-bottom: 1px solid #222;
+}
+
+.supplier-box {
+  position: relative;
+
+  min-height: 42mm;
+
+  padding: 5px 7px;
+
+  border-right: 1px solid #222;
+}
+
+.company-logo {
+  position: absolute;
+
+  left: 7px;
+  top: 8px;
+
+  width: 22mm;
+  height: 22mm;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.company-logo img,
+.template-logo-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.company-details {
+  margin-left: 28mm;
+}
+
+.company-details h2 {
+  margin: 0 0 3px;
+
+  font-family: Georgia, serif;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.company-details p {
+  margin: 0;
+
+  font-size: 8.5px;
+  line-height: 1.35;
+}
+
+.company-contact {
+  position: absolute;
+
+  left: 7px;
+  bottom: 6px;
+
+  font-size: 8.5px;
+  line-height: 1.35;
+}
+
+/* =========================================
+   INVOICE META (Clean, compact 3 rows)
+========================================= */
+
+.invoice-meta {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.invoice-meta .meta-row {
+  display: grid;
+  grid-template-columns: 45% 55%;
+
+  flex: 1;
+  min-height: 9mm;
+
+  border-bottom: 1px solid #222;
+}
+
+.invoice-meta .meta-row:last-child {
+  border-bottom: 0;
+}
+
+.buyer-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.buyer-meta .meta-row {
+  display: grid;
+  grid-template-columns: 45% 55%;
+
+  min-height: 5.5mm;
+
+  border-bottom: 1px solid #222;
+}
+
+.buyer-meta .meta-row:last-child {
+  border-bottom: 0;
+}
+
+.meta-label {
+  padding: 3px 5px;
+
+  font-weight: 600;
+
+  border-right: 1px solid #222;
+
+  display: flex;
+  align-items: center;
+}
+
+.meta-value {
+  padding: 3px 5px;
+
+  font-weight: 500;
+
+  display: flex;
+  align-items: center;
+
+  word-break: break-word;
+}
+
+/* =========================================
+   BUYER SECTION
+========================================= */
+
+.buyer-section {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+
+  border-left: 1px solid #222;
+  border-right: 1px solid #222;
+  border-bottom: 1px solid #222;
+}
+
+.buyer-details {
+  min-height: 33mm;
+
+  padding: 5px 6px;
+
+  border-right: 1px solid #222;
+}
+
+.section-label {
+  margin-bottom: 3px;
+
+  font-weight: 600;
+}
+
+.buyer-details h3 {
+  margin: 0 0 3px;
+
+  font-size: 11px;
+}
+
+.buyer-details p {
+  margin: 0 0 4px;
+
+  line-height: 1.35;
+}
+
+/* =========================================
+   ITEMS TABLE
+========================================= */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.items-table {
+  border-left: 1px solid #222;
+  border-right: 1px solid #222;
+  border-bottom: 1px solid #222;
+}
+
+.items-table th,
+.items-table td {
+  border-right: 1px solid #222;
+  border-bottom: 1px solid #222;
+
+  padding: 3px 4px;
+
+  vertical-align: middle;
+}
+
+.items-table th:last-child,
+.items-table td:last-child {
+  border-right: 0;
+}
+
+.items-table th {
+  text-align: center;
+  font-weight: 700;
+
+  height: 8.5mm;
+}
+
+.items-table td {
+  height: 7.5mm;
+}
+
+/* Column widths */
+
+.items-table .sl {
+  width: 7%;
+}
+
+.items-table .description {
+  width: 29%;
+}
+
+.items-table .hsn {
+  width: 10%;
+}
+
+.items-table .qty {
+  width: 11%;
+}
+
+.items-table .rate {
+  width: 10%;
+}
+
+.items-table .unit {
+  width: 8%;
+}
+
+.items-table .discount {
+  width: 9%;
+}
+
+.items-table .amount {
+  width: 16%;
+}
+
+/* Numeric alignment */
+
+.items-table td:nth-child(n + 3) {
+  text-align: right;
+}
+
+.items-table td:nth-child(6) {
+  text-align: center;
+}
+
+/* Real item rows */
+
+.item-row td {
+  height: 7.5mm;
+}
+
+/* Extra padding on the last real row when invoice has <= 2 items */
+.item-row.last-item-padded td {
+  height: 11mm;
+  padding-bottom: 5px;
+}
+
+/* Tax rows */
+
+.tax-row td {
+  height: 6.5mm;
+}
+
+.tax-label {
+  text-align: right !important;
+
+  font-weight: 600;
+
+  font-style: italic;
+}
+
+/* Rounded off */
+
+.round-row td {
+  height: 6.5mm;
+}
+
+.round-label {
+  text-align: right !important;
+
+  font-weight: 600;
+
+  font-style: italic;
+}
+
+/* Total */
+
+.total-row td {
+  height: 7.5mm;
+
+  font-weight: 700;
+}
+
+.total-row td:nth-child(2) {
+  text-align: right;
+}
+
+/* =========================================
+   AMOUNT WORDS
+========================================= */
+
+.amount-words {
+  position: relative;
+
+  display: grid;
+  grid-template-columns: 1fr 25mm;
+
+  min-height: 12mm;
+
+  padding: 4px 6px;
+
+  border-left: 1px solid #222;
+  border-right: 1px solid #222;
+  border-bottom: 1px solid #222;
+}
+
+.amount-words p {
+  margin: 3px 0 0;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+}
+
+.eoe {
+  text-align: right;
+
+  font-size: 8.5px;
+}
+
+/* =========================================
+   TAX SUMMARY
+========================================= */
+
+.tax-summary th,
+.tax-summary td {
+  border: 1px solid #222;
+
+  padding: 3px 4px;
+
+  text-align: center;
+}
+
+.tax-summary th {
+  font-weight: 700;
+
+  height: 7.5mm;
+}
+
+.tax-summary td {
+  height: 6.5mm;
+}
+
+.tax-summary td:nth-child(2),
+.tax-summary td:nth-child(4),
+.tax-summary td:nth-child(6),
+.tax-summary td:nth-child(7) {
+  text-align: right;
+}
+
+.tax-total {
+  font-weight: 700;
+}
+
+/* =========================================
+   TAX WORDS
+========================================= */
+
+.tax-words {
+  min-height: 10mm;
+
+  padding: 4px 6px;
+
+  border-left: 1px solid #222;
+  border-right: 1px solid #222;
+  border-bottom: 1px solid #222;
+
+  font-size: 8.5px;
+
+  display: flex;
+  align-items: center;
+}
+
+/* =========================================
+   DECLARATION + SIGNATURE
+========================================= */
+
+.bottom-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  min-height: 27mm;
+
+  border-left: 1px solid #222;
+  border-right: 1px solid #222;
+  border-bottom: 1px solid #222;
+}
+
+.declaration {
+  padding: 5px 6px;
+
+  border-right: 1px solid #222;
+}
+
+.declaration h4 {
+  margin: 0 0 6px;
+
+  text-decoration: underline;
+
+  font-size: 9.5px;
+}
+
+.declaration p {
+  margin: 0;
+
+  line-height: 1.35;
+  font-size: 8.5px;
+}
+
+.signature {
+  position: relative;
+
+  padding: 5px 6px;
+
+  text-align: right;
+}
+
+.signature strong:first-child {
+  display: block;
+
+  margin-bottom: 2px;
+}
+
+.signature-space {
+  position: relative;
+
+  height: 15mm;
+
+  display: flex;
+
+  justify-content: flex-end;
+  align-items: flex-end;
+
+  padding-right: 8px;
+
+  font-size: 8px;
+
+  color: #444;
+}
+
+.stamp {
+  position: absolute;
+
+  right: 8mm;
+  bottom: 6mm;
+
+  width: 17mm;
+  height: 17mm;
+
+  border: 2px solid #555;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  font-size: 6px;
+  font-weight: 700;
+
+  transform: rotate(-10deg);
+}
+
+.signatory-label {
+  position: absolute;
+
+  right: 7px;
+  bottom: 3px;
+
+  font-size: 8px;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.invoice-footer {
+  text-align: center;
+
+  padding-top: 4mm;
+
+  font-size: 8.5px;
+
+  line-height: 1.35;
+}
+
+.invoice-footer p {
+  margin: 1px 0;
+}
+
+/* =========================================
+   PRINT (Guaranteed 1-Page A4 Fit)
+========================================= */
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+@media print {
+
+  *,
+  *::before,
+  *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 210mm !important;
+    height: auto !important;
+    max-height: 297mm !important;
+    overflow: hidden !important;
+  }
+
+  #root {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 210mm !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: 297mm !important;
+  }
+
+  .print\:hidden,
+  .print-hidden,
+  header,
+  nav,
+  footer {
+    display: none !important;
+  }
+
+  main,
+  .invoice-preview-shell {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 210mm !important;
+    max-width: 210mm !important;
+    background: transparent !important;
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .invoice {
+    width: 210mm !important;
+    max-width: 210mm !important;
+    min-height: 0 !important; /* Prevents 297mm overflow */
+    height: auto !important;
+    max-height: 296mm !important; /* 1mm safety barrier strictly prevents 2nd blank page */
+
+    margin: 0 auto !important;
+    padding: 8mm 10mm 7mm !important;
+
+    border: 1px solid #222 !important;
+
+    box-shadow: none !important;
+    overflow: hidden !important;
+
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    page-break-before: avoid !important;
+    break-before: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Prevent any section from splitting across pages */
+  .invoice,
+  .top-section,
+  .buyer-section,
+  .items-table,
+  .tax-summary,
+  .bottom-section,
+  .amount-words,
+  .tax-words,
+  .challan-info-box,
+  .invoice-footer {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+}
+
+/* =========================================
+   CHALLAN PURPOSE & NOTICE BOX
+========================================= */
+
+.challan-info-box {
+  border-left: 1px solid #222;
+  border-right: 1px solid #222;
+  border-bottom: 1px solid #222;
+  padding: 6px 10px;
+  background: #fbfbfc;
+}
+
+.challan-purpose-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 9.5px;
+  margin-bottom: 4px;
+}
+
+.challan-purpose-row strong {
+  font-weight: 700;
+}
+
+.purpose-badge {
+  display: inline-block;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  background: #f0f0f0;
+  border: 1px solid #555;
+  border-radius: 3px;
+  font-size: 8.5px;
+}
+
+.challan-notice {
+  text-align: center;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #111;
+  padding-top: 3px;
+  border-top: 1px dashed #777;
+}
+
+.challan-items-table th,
+.challan-items-table td {
+  padding: 3px 5px;
+}
+
+/* =========================================
+   SCREEN PREVIEW
+========================================= */
+
+@media screen {
+
+  .invoice {
+    box-shadow:
+      0 8px 30px rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+  .invoice-preview-shell {
+    padding: 10px;
+    overflow-x: auto;
+  }
+
+  .invoice {
+    transform-origin: top left;
+  }
+}
+
+/* =========================================
+   SINGLE-PAGE FIT SCALING FOR MULTI-ITEM INVOICES
+========================================= */
+
+/* 5 - 7 items */
+.invoice.compact-table .items-table td,
+.invoice.compact-table .items-table th {
+  height: 6.5mm;
+  padding: 2px 3px;
+  font-size: 9px;
+}
+
+.invoice.compact-table .meta-row {
+  min-height: 7.5mm;
+}
+
+.invoice.compact-table .supplier-box {
+  min-height: 40mm;
+}
+
+.invoice.compact-table .buyer-details {
+  min-height: 27mm;
+}
+
+.invoice.compact-table .bottom-section {
+  min-height: 24mm;
+}
+
+.invoice.compact-table .signature-space {
+  height: 13mm;
+}
+
+.invoice.compact-table .tax-summary th {
+  height: 7mm;
+}
+
+.invoice.compact-table .tax-summary td {
+  height: 6mm;
+}
+
+/* 8 - 12 items */
+.invoice.ultra-compact-table {
+  padding: 6mm 8mm 5mm;
+  font-size: 9px;
+}
+
+.invoice.ultra-compact-table .items-table td,
+.invoice.ultra-compact-table .items-table th {
+  height: 5.5mm;
+  padding: 1.5px 2px;
+  font-size: 8.5px;
+}
+
+.invoice.ultra-compact-table .meta-row {
+  min-height: 6.5mm;
+}
+
+.invoice.ultra-compact-table .supplier-box {
+  min-height: 39mm;
+}
+
+.invoice.ultra-compact-table .buyer-details {
+  min-height: 25mm;
+}
+
+.invoice.ultra-compact-table .bottom-section {
+  min-height: 21mm;
+}
+
+.invoice.ultra-compact-table .signature-space {
+  height: 10mm;
+}
+
+.invoice.ultra-compact-table .tax-summary th {
+  height: 6.5mm;
+}
+
+.invoice.ultra-compact-table .tax-summary td {
+  height: 5.5mm;
+}
+
+/* 13+ items */
+.invoice.super-compact-table {
+  padding: 5mm 7mm 4mm;
+  font-size: 8px;
+}
+
+.invoice.super-compact-table .items-table td,
+.invoice.super-compact-table .items-table th {
+  height: 4.8mm;
+  padding: 1px 2px;
+  font-size: 8px;
+}
+
+.invoice.super-compact-table .top-section,
+.invoice.super-compact-table .buyer-section {
+  min-height: 23mm;
+}
+
+.invoice.super-compact-table .supplier-box {
+  min-height: 38mm;
+}
+
+.invoice.super-compact-table .company-logo {
+  width: 20mm;
+  height: 20mm;
+  top: 6px;
+}
+
+.invoice.super-compact-table .company-details {
+  margin-left: 25mm;
+}
+
+.invoice.super-compact-table .buyer-details {
+  min-height: 23mm;
+}
+
+.invoice.super-compact-table .meta-row {
+  min-height: 5.5mm;
+}
+
+.invoice.super-compact-table .bottom-section {
+  min-height: 19mm;
+}
+
+.invoice.super-compact-table .signature-space {
+  height: 9mm;
+}
+
+.invoice.super-compact-table .stamp {
+  width: 14mm;
+  height: 14mm;
+}
+
+.invoice.super-compact-table .tax-summary th {
+  height: 6mm;
+}
+
+.invoice.super-compact-table .tax-summary td {
+  height: 5mm;
+}

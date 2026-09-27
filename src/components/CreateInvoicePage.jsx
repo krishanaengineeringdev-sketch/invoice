@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
 import { 
   Building2, 
@@ -46,6 +46,11 @@ import Navbar from './Navbar';
 export default function CreateInvoicePage() {
   const navigate = useNavigate();
   const { id } = useParams(); // ID present when editing or viewing an existing invoice
+  const [searchParams] = useSearchParams();
+  const challanId = searchParams.get('challanId');
+
+  // Source Challan tracking for Conversion flow
+  const [sourceChallan, setSourceChallan] = useState(null);
 
   // Header Details State
   const [invoiceNo, setInvoiceNo] = useState('');
@@ -123,7 +128,7 @@ export default function CreateInvoicePage() {
   const [saveError, setSaveError] = useState(null);
   const [validationError, setValidationError] = useState('');
 
-  // Effect to load existing invoice (EDIT mode) OR auto-generate incremented invoice_no (NEW mode)
+  // Effect to load existing invoice (EDIT mode) OR prefill from Delivery Challan OR auto-generate invoice_no (NEW mode)
   useEffect(() => {
     const initializeForm = async () => {
       if (id) {
@@ -183,7 +188,7 @@ export default function CreateInvoicePage() {
           console.error('Error fetching existing invoice for edit:', err);
         }
       } else {
-        // NEW Mode: Fetch latest invoice from Supabase, parse & increment numeric part
+        // NEW Mode: Auto-generate incremented invoice_no
         try {
           const { data: latestInvoices, error: fetchErr } = await supabase
             .from('invoices')
@@ -196,7 +201,6 @@ export default function CreateInvoicePage() {
           let nextSeq = 1;
           if (latestInvoices && latestInvoices.length > 0 && latestInvoices[0]?.invoice_no) {
             const latestNo = latestInvoices[0].invoice_no;
-            // Parse leading numeric sequence e.g., '41' from '41(2026-27)'
             const match = latestNo.match(/^(\d+)/) || latestNo.match(/(\d+)/);
             if (match) {
               nextSeq = parseInt(match[0], 10) + 1;
@@ -211,11 +215,59 @@ export default function CreateInvoicePage() {
           const fy = getIndianFinancialYear();
           setInvoiceNo(`1(${fy})`);
         }
+
+        // PREFILL FROM DELIVERY CHALLAN (Conversion Flow)
+        if (challanId) {
+          try {
+            const { data: challanData, error: chErr } = await supabase
+              .from('delivery_challans')
+              .select('*, clients(*), delivery_challan_items(*)')
+              .eq('id', challanId)
+              .single();
+
+            if (chErr) {
+              console.error('Error fetching source delivery challan:', chErr);
+            } else if (challanData) {
+              setSourceChallan(challanData);
+
+              const cName = challanData.clients?.name || challanData.client_name || '';
+              if (cName) setBuyerName(cName);
+              if (challanData.clients?.address) setBuyerAddress(challanData.clients.address);
+              if (challanData.clients?.gstin) setBuyerGstin(challanData.clients.gstin);
+              if (challanData.clients?.email) setBuyerEmail(challanData.clients.email);
+
+              if (challanData.buyer_order_no) setBuyerOrderNo(challanData.buyer_order_no);
+              if (challanData.dispatch_through) setDispatchThrough(challanData.dispatch_through);
+              if (challanData.destination) setDestination(challanData.destination);
+              if (challanData.challan_no) {
+                setSupplierRef(`DC: ${challanData.challan_no}`);
+                setDeliveryNote(challanData.challan_no);
+              }
+
+              if (challanData.delivery_challan_items && challanData.delivery_challan_items.length > 0) {
+                setItems(challanData.delivery_challan_items.map((it, idx) => ({
+                  id: idx + 1,
+                  mode: 'manual',
+                  selectedMaterialId: '',
+                  description: it.description || '',
+                  hsn: it.hsn_sac || '8302',
+                  quantity: it.quantity !== undefined && it.quantity !== null ? Number(it.quantity) : 1,
+                  rate: 0,
+                  per: it.per || 'NOS',
+                  discount: 0,
+                  amount: 0
+                })));
+              }
+            }
+          } catch (err) {
+            console.error('Error pre-filling invoice from delivery challan:', err);
+          }
+        }
       }
     };
 
     initializeForm();
-  }, [id]);
+  }, [id, challanId]);
 
   // Row Amount & Invoice Totals Calculations
   const computeRowAmount = (qtyVal, rateVal, discVal) => {
@@ -461,6 +513,11 @@ export default function CreateInvoicePage() {
         status: 'pending'
       };
 
+      const activeChallanId = sourceChallan?.id || challanId;
+      if (activeChallanId) {
+        invoicePayload.challan_id = activeChallanId;
+      }
+
       let targetInvoiceId = id;
 
       if (id) {
@@ -486,11 +543,24 @@ export default function CreateInvoicePage() {
         }
       } else {
         // CREATE MODE: Insert new invoice record
-        const { data: invoiceData, error: insertErr } = await supabase
+        let { data: invoiceData, error: insertErr } = await supabase
           .from('invoices')
           .insert(invoicePayload)
           .select()
           .single();
+
+        if (insertErr && (insertErr.code === '42703' || insertErr.message?.includes('challan_id'))) {
+          // Schema doesn't have invoices.challan_id yet; fallback gracefully
+          console.warn('invoices.challan_id column not found in database, retrying insert without it');
+          delete invoicePayload.challan_id;
+          const retryResult = await supabase
+            .from('invoices')
+            .insert(invoicePayload)
+            .select()
+            .single();
+          invoiceData = retryResult.data;
+          insertErr = retryResult.error;
+        }
 
         if (insertErr) {
           console.error('Invoice insert error:', insertErr);
@@ -499,6 +569,18 @@ export default function CreateInvoicePage() {
 
         if (invoiceData && invoiceData.id) {
           targetInvoiceId = invoiceData.id;
+        }
+
+        // Update source Delivery Challan status to 'converted'
+        if (activeChallanId) {
+          try {
+            await supabase
+              .from('delivery_challans')
+              .update({ status: 'converted' })
+              .eq('id', activeChallanId);
+          } catch (statusErr) {
+            console.warn('Notice updating delivery challan status:', statusErr);
+          }
         }
       }
 
@@ -566,6 +648,21 @@ export default function CreateInvoicePage() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+
+        {/* Challan Conversion Banner */}
+        {sourceChallan && (
+          <div className="bg-indigo-50 border border-indigo-200 p-4 rounded-xl shadow-xs flex items-center justify-between text-xs text-indigo-900 font-semibold print:hidden animate-fade-in">
+            <div className="flex items-center gap-2.5">
+              <Sparkles className="w-5 h-5 text-indigo-600 shrink-0" />
+              <div>
+                <span className="font-bold text-indigo-950">Converting from Delivery Challan: {sourceChallan.challan_no}</span>
+                <span className="block text-[11px] text-indigo-700 font-normal">
+                  Buyer details and {sourceChallan.delivery_challan_items?.length || 0} line items pre-filled for {sourceChallan.purpose || 'goods movement'}. Please enter the Rate (₹) and Discount (%) to generate GST totals.
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
         
         {/* Validation Error Alert Banner */}
         {validationError && (

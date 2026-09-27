@@ -26,7 +26,8 @@ import {
   Trash2,
   AlertTriangle,
   FileSpreadsheet,
-  ClipboardList
+  ClipboardList,
+  Truck
 } from 'lucide-react';
 
 export default function DashboardPage() {
@@ -36,6 +37,7 @@ export default function DashboardPage() {
   // State Management
   const [invoices, setInvoices] = useState([]);
   const [pendingQuotationsCount, setPendingQuotationsCount] = useState(0);
+  const [pendingChallansCount, setPendingChallansCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -92,6 +94,19 @@ export default function DashboardPage() {
         }
       } catch (qErr) {
         console.warn('Quotations fetch notice on dashboard:', qErr);
+      }
+
+      // Fetch pending delivery challans count
+      try {
+        const { data: cData } = await supabase
+          .from('delivery_challans')
+          .select('id, status');
+        if (cData) {
+          const pendingC = cData.filter(c => c.status !== 'converted').length;
+          setPendingChallansCount(pendingC);
+        }
+      } catch (cErr) {
+        console.warn('Delivery challans fetch notice on dashboard:', cErr);
       }
 
     } catch (err) {
@@ -389,7 +404,32 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            {/* Stat Card 5: Invoices This Month */}
+            {/* Stat Card 5: Active Delivery Challans */}
+            <div className="bg-[#F4F5F6] p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-[#5C7A99] uppercase tracking-wider">
+                  Active Challans
+                </span>
+                <div className="w-9 h-9 rounded-xl bg-amber-100/80 text-amber-800 flex items-center justify-center">
+                  <Truck className="w-4 h-4" />
+                </div>
+              </div>
+              <div className="text-2xl font-extrabold text-[#36454F] mt-3 font-heading">
+                {isLoading ? (
+                  <span className="animate-pulse bg-slate-300 inline-block h-7 w-14 rounded"></span>
+                ) : (
+                  pendingChallansCount
+                )}
+              </div>
+              <div className="text-[11px] text-[#5C7A99] font-semibold mt-1.5">
+                <Link to="/challans" className="hover:underline text-amber-700 flex items-center gap-1">
+                  <span>Goods dispatched</span>
+                  <span>→</span>
+                </Link>
+              </div>
+            </div>
+
+            {/* Stat Card 6: Invoices This Month */}
             <div className="bg-[#F4F5F6] p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-[#5C7A99] uppercase tracking-wider">
@@ -428,12 +468,12 @@ export default function DashboardPage() {
               </p>
             </div>
 
-            {/* Action Buttons: Export to Tally & Create New Invoice */}
-            <div className="flex items-center gap-3 self-start md:self-auto">
+            {/* Action Buttons: Export to Tally, New Challan & Create New Invoice */}
+            <div className="flex flex-wrap items-center gap-2.5 self-start md:self-auto">
               <button
                 onClick={handleExportTally}
                 disabled={isExporting || isLoading}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#5C7A99] hover:bg-[#4a637d] text-white font-bold text-xs shadow-sm hover:shadow-md transition-all cursor-pointer disabled:opacity-50 active:scale-95"
+                className="inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-[#5C7A99] hover:bg-[#4a637d] text-white font-bold text-xs shadow-sm hover:shadow-md transition-all cursor-pointer disabled:opacity-50 active:scale-95"
               >
                 {isExporting ? (
                   <>
@@ -449,8 +489,17 @@ export default function DashboardPage() {
               </button>
 
               <Link
+                to="/challans/new"
+                className="inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-[#F4F5F6] hover:bg-slate-200 text-[#36454F] font-bold text-xs border border-slate-200 shadow-2xs hover:shadow-xs transition-all duration-200 cursor-pointer active:scale-95"
+                title="Create a Non-Tax Delivery Challan"
+              >
+                <Truck className="w-4 h-4 text-[#5C7A99]" />
+                <span>New Challan</span>
+              </Link>
+
+              <Link
                 to="/invoice/new"
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] font-bold text-xs shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer active:scale-95"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#F2A104] hover:bg-[#d88f00] text-[#36454F] font-bold text-xs shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer active:scale-95"
               >
                 <Plus className="w-4 h-4 stroke-[2.5]" />
                 <span>Create New Invoice</span>

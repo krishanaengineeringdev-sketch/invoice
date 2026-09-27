@@ -93,7 +93,10 @@ export function getEmailShareDetails({ type = 'Invoice', number = '', date = '',
  * Opens default Mail client with pre-filled Subject and Body.
  */
 export function shareViaEmail({ type = 'Invoice', number = '', date = '', amount = 0, buyerName = '', buyerEmail = '', pdfUrl = null }) {
-  const { mailtoUrl, subject } = getEmailShareDetails({ type, number, date, amount, buyerName, buyerEmail, pdfUrl });
-  console.log('Triggering Email share via mailto URL:', mailtoUrl);
-  window.location.href = mailtoUrl;
+  const { mailtoUrl } = getEmailShareDetails({ type, number, date, amount, buyerName, buyerEmail, pdfUrl });
+  try {
+    window.location.href = mailtoUrl;
+  } catch (err) {
+    // Silently fallback if mailto blocked
+  }
 }

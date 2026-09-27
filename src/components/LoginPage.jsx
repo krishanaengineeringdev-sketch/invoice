@@ -10,7 +10,6 @@ import {
   Building2, 
   ShieldCheck, 
   ArrowRight,
-  Sparkles,
   HelpCircle,
   AlertCircle,
   X
@@ -74,12 +73,6 @@ export default function LoginPage() {
     }
   };
 
-  const handleDemoFill = () => {
-    setEmail('admin@krishnaengineering.com');
-    setPassword('demo1234');
-    setErrorMessage('');
-  };
-
   const handleForgotSubmit = (e) => {
     e.preventDefault();
     if (!resetEmailInput.trim()) return;
@@ -111,14 +104,12 @@ export default function LoginPage() {
           {/* Header Section with Logo & Company Name */}
           <div className="text-center mb-8">
             
-            {/* Logo Placeholder */}
-            <div className="mx-auto w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#36454F] to-[#5C7A99] p-0.5 shadow-md hover:scale-105 transition-transform duration-300 flex items-center justify-center mb-4">
-              <div className="w-full h-full bg-white rounded-[14px] flex items-center justify-center relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-6 h-6 bg-[#F2A104] rounded-bl-full opacity-90"></div>
-                <div className="w-10 h-10 rounded-full bg-[#36454F]/5 border-2 border-[#F2A104] flex items-center justify-center">
-                  <Building2 className="w-5 h-5 text-[#36454F]" />
-                </div>
-              </div>
+            {/* Company Logo */}
+            <div className="login-logo-container mx-auto mb-4">
+              <img 
+                src="/logo.png" 
+                alt="Krishna Engineering" 
+              />
             </div>
 
             {/* Company Name */}
@@ -241,18 +232,6 @@ export default function LoginPage() {
               )}
             </button>
           </form>
-
-          {/* Quick Demo Helper Button */}
-          <div className="mt-6 pt-5 border-t border-slate-100 flex flex-col items-center">
-            <button
-              type="button"
-              onClick={handleDemoFill}
-              className="inline-flex items-center gap-1.5 text-xs text-[#5C7A99] bg-[#5C7A99]/5 hover:bg-[#5C7A99]/10 px-3 py-1.5 rounded-lg border border-[#5C7A99]/20 transition-colors font-medium cursor-pointer"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-[#F2A104]" />
-              Auto-fill Demo Credentials
-            </button>
-          </div>
 
         </div>
 
