@@ -79,9 +79,10 @@ export default function CreateDeliveryChallanPage() {
     },
   ]);
 
-  // Manual Total Quantity Override State
+  // Manual Total Quantity & Amount Override State
   const [totalManual, setTotalManual] = useState(false);
   const [totalText, setTotalText] = useState('');
+  const [totalAmountText, setTotalAmountText] = useState('');
 
   // Loading & Alert States
   const [isLoading, setIsLoading] = useState(false);
@@ -135,6 +136,9 @@ export default function CreateDeliveryChallanPage() {
               challanData.total_manual = dexieRecord.total_manual;
               challanData.total_text = dexieRecord.total_text;
             }
+            if ((challanData.total_amount_text === undefined || challanData.total_amount_text === null) && dexieRecord) {
+              challanData.total_amount_text = dexieRecord.total_amount_text;
+            }
           } else if (dexieRecord) {
             challanData = dexieRecord;
           }
@@ -153,6 +157,7 @@ export default function CreateDeliveryChallanPage() {
             setClientId(challanData.client_id || '');
             setTotalManual(Boolean(challanData.total_manual));
             setTotalText(challanData.total_text || '');
+            setTotalAmountText(challanData.total_amount_text || '');
 
             if (challanData.clients) {
               setBuyerName(challanData.clients.name || '');
@@ -390,6 +395,7 @@ export default function CreateDeliveryChallanPage() {
         destination: destination.trim() || 'COIMBATORE',
         total_manual: Boolean(totalManual),
         total_text: totalManual ? totalText.trim() : null,
+        total_amount_text: totalAmountText.trim() || null,
       };
 
       let savedChallanId = id;
@@ -402,10 +408,11 @@ export default function CreateDeliveryChallanPage() {
           .eq('id', id);
 
         if (updateErr && updateErr.code === '42703') {
-          // Columns total_manual / total_text not in Postgres table yet
+          // Columns total_manual / total_text / total_amount_text not in Postgres table yet
           const fallbackPayload = { ...challanPayload };
           delete fallbackPayload.total_manual;
           delete fallbackPayload.total_text;
+          delete fallbackPayload.total_amount_text;
           const retry = await supabase
             .from('delivery_challans')
             .update(fallbackPayload)
@@ -429,10 +436,11 @@ export default function CreateDeliveryChallanPage() {
           .single();
 
         if (insertErr && insertErr.code === '42703') {
-          // Columns total_manual / total_text not in Postgres table yet
+          // Columns total_manual / total_text / total_amount_text not in Postgres table yet
           const fallbackPayload = { ...challanPayload };
           delete fallbackPayload.total_manual;
           delete fallbackPayload.total_text;
+          delete fallbackPayload.total_amount_text;
           const retry = await supabase
             .from('delivery_challans')
             .insert(fallbackPayload)
@@ -1016,6 +1024,28 @@ export default function CreateDeliveryChallanPage() {
                       )}
                     </span>
                   )}
+                </div>
+
+                <div className="h-4 w-px bg-slate-300 hidden sm:block"></div>
+
+                {/* Total Amount (manual) */}
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-medium text-slate-500 whitespace-nowrap">
+                    Total Amount (manual):
+                  </span>
+                  <div className="flex items-center">
+                    <span className="px-2 py-1 bg-slate-100 border border-r-0 border-slate-300 rounded-l-lg text-xs font-bold text-slate-600 select-none">
+                      ₹
+                    </span>
+                    <input
+                      type="text"
+                      value={totalAmountText}
+                      onChange={(e) => setTotalAmountText(e.target.value)}
+                      placeholder="e.g. 45,000 or 45000 + packing"
+                      className="px-2.5 py-1 text-xs font-mono font-bold bg-white border border-slate-300 rounded-r-lg text-[#36454F] focus:ring-2 focus:ring-[#F2A104]/30 focus:border-[#F2A104] focus:outline-none w-44 sm:w-52 shadow-2xs"
+                      title="Type custom total amount (optional)"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

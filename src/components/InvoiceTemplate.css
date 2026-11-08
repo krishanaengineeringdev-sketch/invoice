@@ -966,7 +966,9 @@ table {
 
   .invoice.challan-mode .challan-items-table .total-row td,
   .invoice.challan-mode .challan-total-row td,
-  .invoice.challan-mode .manual-total-cell {
+  .invoice.challan-mode .challan-total-amount-row td,
+  .invoice.challan-mode .manual-total-cell,
+  .invoice.challan-mode .manual-total-amount-cell {
     font-size: 15px !important;
     font-weight: 700 !important;
     padding-top: 8px !important;
@@ -1033,7 +1035,8 @@ table {
     padding-bottom: 6px !important;
   }
   .invoice.challan-mode.compact-table .challan-items-table .total-row td,
-  .invoice.challan-mode.compact-table .manual-total-cell {
+  .invoice.challan-mode.compact-table .manual-total-cell,
+  .invoice.challan-mode.compact-table .manual-total-amount-cell {
     font-size: 14px !important;
   }
   .invoice.challan-mode.compact-table .challan-purpose-row,
@@ -1091,7 +1094,9 @@ table {
   .invoice.challan-mode.ultra-compact-table .challan-items-table .total-row td,
   .invoice.challan-mode.super-compact-table .challan-items-table .total-row td,
   .invoice.challan-mode.ultra-compact-table .manual-total-cell,
-  .invoice.challan-mode.super-compact-table .manual-total-cell {
+  .invoice.challan-mode.super-compact-table .manual-total-cell,
+  .invoice.challan-mode.ultra-compact-table .manual-total-amount-cell,
+  .invoice.challan-mode.super-compact-table .manual-total-amount-cell {
     font-size: 13px !important;
   }
   .invoice.challan-mode.ultra-compact-table .challan-purpose-row,
@@ -1206,10 +1211,12 @@ table {
   padding-right: 6px !important;
 }
 
-/* Total Quantity Row */
+/* Total Quantity & Total Amount Rows */
 .invoice.challan-mode .challan-items-table .total-row td,
 .invoice.challan-mode .challan-total-row td,
-.invoice.challan-mode .manual-total-cell {
+.invoice.challan-mode .challan-total-amount-row td,
+.invoice.challan-mode .manual-total-cell,
+.invoice.challan-mode .manual-total-amount-cell {
   font-size: 15px !important;
   font-weight: 700 !important;
   padding-top: 8px !important;
@@ -1313,7 +1320,8 @@ table {
   padding-bottom: 6px !important;
 }
 .invoice.challan-mode.compact-table .challan-items-table .total-row td,
-.invoice.challan-mode.compact-table .manual-total-cell {
+.invoice.challan-mode.compact-table .manual-total-cell,
+.invoice.challan-mode.compact-table .manual-total-amount-cell {
   font-size: 14px !important;
   padding-top: 5px !important;
   padding-bottom: 5px !important;
@@ -1373,7 +1381,9 @@ table {
 .invoice.challan-mode.ultra-compact-table .challan-items-table .total-row td,
 .invoice.challan-mode.super-compact-table .challan-items-table .total-row td,
 .invoice.challan-mode.ultra-compact-table .manual-total-cell,
-.invoice.challan-mode.super-compact-table .manual-total-cell {
+.invoice.challan-mode.super-compact-table .manual-total-cell,
+.invoice.challan-mode.ultra-compact-table .manual-total-amount-cell,
+.invoice.challan-mode.super-compact-table .manual-total-amount-cell {
   font-size: 13px !important;
   padding-top: 4px !important;
   padding-bottom: 4px !important;

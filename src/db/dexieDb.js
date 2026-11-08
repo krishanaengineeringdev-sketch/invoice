@@ -7,7 +7,7 @@ import Dexie from 'dexie';
 export const db = new Dexie('KrishnaEngineeringGST');
 
 db.version(1).stores({
-  delivery_challans: 'id, challan_no, challan_date, client_id, status, purpose, total_manual, total_text, created_at',
+  delivery_challans: 'id, challan_no, challan_date, client_id, status, purpose, total_manual, total_text, total_amount_text, created_at',
   delivery_challan_items: 'id, challan_id, description, hsn_sac, quantity, per, remarks'
 });
 
@@ -32,6 +32,7 @@ export async function syncChallanToDexie(challan, items = []) {
         status: challan.status,
         total_manual: Boolean(challan.total_manual),
         total_text: challan.total_text || null,
+        total_amount_text: challan.total_amount_text || null,
         created_at: challan.created_at || new Date().toISOString()
       });
 

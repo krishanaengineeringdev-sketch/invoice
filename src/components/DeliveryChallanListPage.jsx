@@ -135,11 +135,16 @@ export default function DeliveryChallanListPage() {
   // WhatsApp Share Helper
   const handleWhatsAppShare = (challan) => {
     const itemCount = challan.delivery_challan_items?.length || 0;
+    const hasTotalAmount = Boolean(challan.total_amount_text && String(challan.total_amount_text).trim());
+    const amountVal = hasTotalAmount
+      ? (String(challan.total_amount_text).includes('₹') ? String(challan.total_amount_text).trim() : `₹${String(challan.total_amount_text).trim()}`)
+      : `${itemCount} Item(s) (${challan.purpose || 'Job Work'})`;
+
     shareViaWhatsApp({
       type: 'Delivery Challan',
       number: challan.challan_no,
       date: formatDate(challan.challan_date),
-      amount: `${itemCount} Item(s) (${challan.purpose || 'Job Work'})`,
+      amount: amountVal,
       buyerName: challan.clients?.name || ''
     });
   };
@@ -147,11 +152,16 @@ export default function DeliveryChallanListPage() {
   // Email Share Helper
   const handleEmailShare = (challan) => {
     const itemCount = challan.delivery_challan_items?.length || 0;
+    const hasTotalAmount = Boolean(challan.total_amount_text && String(challan.total_amount_text).trim());
+    const amountVal = hasTotalAmount
+      ? (String(challan.total_amount_text).includes('₹') ? String(challan.total_amount_text).trim() : `₹${String(challan.total_amount_text).trim()}`)
+      : `${itemCount} Item(s) (${challan.purpose || 'Job Work'})`;
+
     setShareEmailData({
       type: 'Delivery Challan',
       number: challan.challan_no,
       date: formatDate(challan.challan_date),
-      amount: `${itemCount} Item(s) (${challan.purpose || 'Job Work'})`,
+      amount: amountVal,
       buyerName: challan.clients?.name || '',
       buyerEmail: ''
     });

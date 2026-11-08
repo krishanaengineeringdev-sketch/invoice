@@ -346,6 +346,19 @@ export default function InvoiceTemplate({ data = {}, type = 'invoice' }) {
                 )}
                 <td></td>
               </tr>
+
+              {/* Optional Total Amount Row (Manual) */}
+              {Boolean(data.total_amount_text && String(data.total_amount_text).trim()) && (
+                <tr className="total-row challan-total-row challan-total-amount-row">
+                  <td></td>
+                  <td style={{ fontWeight: 700 }}>Total Amount</td>
+                  <td></td>
+                  <td colSpan={2} className="manual-total-amount-cell" style={{ textAlign: 'right', paddingRight: '12px', fontWeight: 700 }}>
+                    {String(data.total_amount_text).trim()}
+                  </td>
+                  <td></td>
+                </tr>
+              )}
             </tbody>
           </table>
         ) : (

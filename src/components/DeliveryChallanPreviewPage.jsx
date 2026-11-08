@@ -54,6 +54,9 @@ export default function DeliveryChallanPreviewPage() {
             finalData.total_manual = dexieRecord.total_manual;
             finalData.total_text = dexieRecord.total_text;
           }
+          if ((finalData.total_amount_text === undefined || finalData.total_amount_text === null) && dexieRecord) {
+            finalData.total_amount_text = dexieRecord.total_amount_text;
+          }
           // Sync Dexie with latest data from Supabase
           await syncChallanToDexie(finalData, finalData.delivery_challan_items);
         } else if (dexieRecord) {
@@ -103,11 +106,16 @@ export default function DeliveryChallanPreviewPage() {
   const handleWhatsAppShare = () => {
     if (!challan) return;
     const itemCount = challan.delivery_challan_items?.length || 0;
+    const hasTotalAmount = Boolean(challan.total_amount_text && String(challan.total_amount_text).trim());
+    const amountVal = hasTotalAmount
+      ? (String(challan.total_amount_text).includes('₹') ? String(challan.total_amount_text).trim() : `₹${String(challan.total_amount_text).trim()}`)
+      : `${itemCount} Item(s) (${challan.purpose || 'Job Work'})`;
+
     shareViaWhatsApp({
       type: 'Delivery Challan',
       number: challan.challan_no,
       date: formatDate(challan.challan_date),
-      amount: `${itemCount} Item(s) (${challan.purpose || 'Job Work'})`,
+      amount: amountVal,
       buyerName: challan.clients?.name || ''
     });
   };
@@ -115,11 +123,16 @@ export default function DeliveryChallanPreviewPage() {
   const handleEmailShare = () => {
     if (!challan) return;
     const itemCount = challan.delivery_challan_items?.length || 0;
+    const hasTotalAmount = Boolean(challan.total_amount_text && String(challan.total_amount_text).trim());
+    const amountVal = hasTotalAmount
+      ? (String(challan.total_amount_text).includes('₹') ? String(challan.total_amount_text).trim() : `₹${String(challan.total_amount_text).trim()}`)
+      : `${itemCount} Item(s) (${challan.purpose || 'Job Work'})`;
+
     setShareEmailData({
       type: 'Delivery Challan',
       number: challan.challan_no,
       date: formatDate(challan.challan_date),
-      amount: `${itemCount} Item(s) (${challan.purpose || 'Job Work'})`,
+      amount: amountVal,
       buyerName: challan.clients?.name || '',
       buyerEmail: challan.clients?.email || ''
     });

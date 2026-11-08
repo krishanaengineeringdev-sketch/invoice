@@ -18,13 +18,15 @@ CREATE TABLE IF NOT EXISTS delivery_challans (
   status text DEFAULT 'pending',   -- 'pending', 'delivered', 'converted'
   total_manual boolean DEFAULT false,
   total_text text,
+  total_amount_text text,
   created_at timestamp with time zone DEFAULT now()
 );
 
--- 1b. Support manual total calculation columns for existing tables
+-- 1b. Support manual total calculation and amount columns for existing tables
 ALTER TABLE delivery_challans 
 ADD COLUMN IF NOT EXISTS total_manual boolean DEFAULT false,
-ADD COLUMN IF NOT EXISTS total_text text;
+ADD COLUMN IF NOT EXISTS total_text text,
+ADD COLUMN IF NOT EXISTS total_amount_text text;
 
 -- 2. Create delivery_challan_items table
 CREATE TABLE IF NOT EXISTS delivery_challan_items (

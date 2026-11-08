@@ -41,16 +41,25 @@ export async function uploadPdfToStorage(pdfBlob, fileName) {
  * Optional useCrLf parameter ensures line breaks use \r\n for mailto links (%0D%0A).
  */
 export function buildShareMessage({ type = 'Invoice', number = '', date = '', amount = 0, buyerName = '', pdfUrl = null, useCrLf = false }) {
-  const formattedAmount = parseFloat(amount || 0).toLocaleString('en-IN', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  });
-
-  const docTypeLabel = type.toLowerCase().includes('quotation') ? 'Quotation' : 'Tax Invoice';
+  const isChallan = type.toLowerCase().includes('challan');
+  const isQuotation = type.toLowerCase().includes('quotation');
+  const docTypeLabel = isChallan ? 'Delivery Challan' : (isQuotation ? 'Quotation' : 'Tax Invoice');
   const nameGreeting = buyerName ? `Hi ${buyerName},` : 'Hello,';
   const nl = useCrLf ? '\r\n' : '\n';
   
-  let message = `${nameGreeting} please find your ${docTypeLabel} #${number} dated ${date} for ₹${formattedAmount}.`;
+  let amountStr = '';
+  if (typeof amount === 'string') {
+    amountStr = amount;
+  } else {
+    amountStr = `₹${parseFloat(amount || 0).toLocaleString('en-IN', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    })}`;
+  }
+
+  let message = isChallan
+    ? `${nameGreeting} please find your Delivery Challan #${number} dated ${date}${amountStr ? ` (${amountStr})` : ''}.`
+    : `${nameGreeting} please find your ${docTypeLabel} #${number} dated ${date} for ${amountStr}.`;
 
   if (pdfUrl) {
     message += `${nl}${nl}View/Download PDF: ${pdfUrl}`;
