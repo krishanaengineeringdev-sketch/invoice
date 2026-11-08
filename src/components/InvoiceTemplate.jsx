@@ -106,6 +106,19 @@ export default function InvoiceTemplate({ data = {}, type = 'invoice' }) {
   const totalQty = lineItems.reduce((sum, item) => sum + (parseFloat(item.quantity) || 0), 0);
   const primaryUnit = (lineItems[0]?.per || 'NOS').toUpperCase();
 
+  // Unit and manual total calculation for Delivery Challan
+  const challanUnits = lineItems
+    .filter((item) => (item.description && item.description.trim()) || parseFloat(item.quantity) > 0)
+    .map((item) => (item.per || 'NOS').trim().toUpperCase());
+  const uniqueChallanUnits = [...new Set(challanUnits)];
+  const hasMixedUnits = uniqueChallanUnits.length > 1;
+  const singleUnit = uniqueChallanUnits.length === 1 ? uniqueChallanUnits[0] : (challanUnits[0] || 'NOS');
+
+  const isManualTotal = Boolean(
+    isChallan && data.total_manual && data.total_text && String(data.total_text).trim()
+  );
+  const manualTotalText = isManualTotal ? String(data.total_text).trim() : '';
+
   // Group by HSN for Tax Summary table
   const hsnMap = {};
   lineItems.forEach((item) => {
@@ -139,9 +152,9 @@ export default function InvoiceTemplate({ data = {}, type = 'invoice' }) {
   }
 
   // Dynamic single-page fit scaling based on line item count
-  const pageFitClass = lineItems.length > 10 
-    ? 'super-compact-table' 
-    : (lineItems.length > 7 ? 'ultra-compact-table' : (lineItems.length > 4 ? 'compact-table' : ''));
+  const pageFitClass = isChallan
+    ? (lineItems.length > 10 ? 'super-compact-table' : (lineItems.length > 7 ? 'ultra-compact-table' : (lineItems.length > 5 ? 'compact-table' : '')))
+    : (lineItems.length > 10 ? 'super-compact-table' : (lineItems.length > 7 ? 'ultra-compact-table' : (lineItems.length > 4 ? 'compact-table' : '')));
 
   // Helper for 2 decimals
   const fmt = (num) => (typeof num === 'number' ? num : parseFloat(num) || 0).toFixed(2);
@@ -303,7 +316,9 @@ export default function InvoiceTemplate({ data = {}, type = 'invoice' }) {
                     <td style={{ textAlign: 'center' }}>{index + 1}</td>
                     <td>{item.description}</td>
                     <td style={{ textAlign: 'center' }}>{item.hsn_sac || item.hsn || '-'}</td>
-                    <td style={{ textAlign: 'right' }}>{fmt(qty)}</td>
+                    <td style={{ textAlign: 'right' }}>
+                      {Number.isInteger(qty) ? qty : fmt(qty)}
+                    </td>
                     <td style={{ textAlign: 'center' }}>{(item.per || 'NOS').toUpperCase()}</td>
                     <td style={{ textAlign: 'center' }}>{item.remarks || '-'}</td>
                   </tr>
@@ -311,12 +326,24 @@ export default function InvoiceTemplate({ data = {}, type = 'invoice' }) {
               })}
 
               {/* Total Quantity Row */}
-              <tr className="total-row">
+              <tr className="total-row challan-total-row">
                 <td></td>
-                <td>Total Quantity</td>
+                <td style={{ fontWeight: 700 }}>Total Quantity</td>
                 <td></td>
-                <td style={{ textAlign: 'right' }}>{fmt(totalQty)}</td>
-                <td style={{ textAlign: 'center' }}>{primaryUnit}</td>
+                {isManualTotal ? (
+                  <td colSpan={2} className="manual-total-cell" style={{ textAlign: 'center', fontWeight: 700 }}>
+                    {manualTotalText}
+                  </td>
+                ) : (
+                  <>
+                    <td style={{ textAlign: 'right', fontWeight: 700 }}>
+                      {hasMixedUnits ? '' : (Number.isInteger(totalQty) ? totalQty : fmt(totalQty))}
+                    </td>
+                    <td style={{ textAlign: 'center', fontWeight: 700 }}>
+                      {hasMixedUnits ? '' : singleUnit}
+                    </td>
+                  </>
+                )}
                 <td></td>
               </tr>
             </tbody>
@@ -397,7 +424,7 @@ export default function InvoiceTemplate({ data = {}, type = 'invoice' }) {
 
       {/* ================= CHALLAN PURPOSE / TAX SUMMARY SECTION ================= */}
       {isChallan ? (
-        /* Challan Goods Dispatch Notice & Purpose Box */
+        /* Challan Goods Dispatch Purpose Box */
         <div className="challan-info-box">
           <div className="challan-purpose-row">
             <div>
@@ -410,9 +437,6 @@ export default function InvoiceTemplate({ data = {}, type = 'invoice' }) {
                 <span className="font-mono font-bold">{data.vehicle_no}</span>
               </div>
             )}
-          </div>
-          <div className="challan-notice">
-            Not for Sale — Delivery Challan Only (Issued under Rule 55 of CGST Rules, 2017)
           </div>
         </div>
       ) : (
@@ -526,13 +550,10 @@ export default function InvoiceTemplate({ data = {}, type = 'invoice' }) {
       {/* ================= FOOTER ================= */}
       <div className="invoice-footer">
 
-        <p>Subject to Coimbatore Jurisdiction</p>
+        {!isChallan && <p>Subject to Coimbatore Jurisdiction</p>}
 
         {isChallan ? (
-          <>
-            <p style={{ fontWeight: 700 }}>Not for Sale — Delivery Challan Only</p>
-            <p>This is a Computer Generated Delivery Challan</p>
-          </>
+          <p>This is a Computer Generated Delivery Challan</p>
         ) : (
           <p>{isQuotation ? 'This is a Computer Generated Quotation' : 'This is a Computer Generated Invoice'}</p>
         )}

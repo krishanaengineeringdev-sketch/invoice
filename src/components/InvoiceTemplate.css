@@ -707,18 +707,11 @@ table {
 
 @media print {
 
-  * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-    color-adjust: exact !important;
-  }
-
   *,
   *::before,
   *::after {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    color-adjust: exact !important;
   }
 
   html,
@@ -898,36 +891,360 @@ table {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
+
+  /* =========================================
+     PRINT / PDF OVERRIDES FOR DELIVERY CHALLAN
+  ========================================= */
+  .invoice.challan-mode {
+    font-size: 14px !important;
+    overflow: hidden !important;
+    width: 210mm !important;
+    max-width: 210mm !important;
+    box-sizing: border-box !important;
+  }
+
+  .invoice.challan-mode * {
+    box-sizing: border-box !important;
+  }
+
+  .invoice.challan-mode .invoice-title {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+  }
+
+  .invoice.challan-mode .company-details h2 {
+    font-size: 22px !important;
+    font-weight: 700 !important;
+  }
+
+  .invoice.challan-mode .company-details p,
+  .invoice.challan-mode .company-contact,
+  .invoice.challan-mode .meta-label,
+  .invoice.challan-mode .meta-value,
+  .invoice.challan-mode .buyer-details p {
+    font-size: 14px !important;
+  }
+
+  .invoice.challan-mode .section-label {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+  }
+
+  .invoice.challan-mode .buyer-details h3 {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+  }
+
+  .invoice.challan-mode .challan-items-table {
+    table-layout: fixed !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .invoice.challan-mode .challan-items-table th,
+  .invoice.challan-mode .challan-items-table td {
+    box-sizing: border-box !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+
+  .invoice.challan-mode .challan-items-table th {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    padding: 6px 5px !important;
+  }
+
+  .invoice.challan-mode .challan-items-table td,
+  .invoice.challan-mode .challan-items-table .item-row td {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    padding-top: 9px !important;
+    padding-bottom: 9px !important;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+  }
+
+  .invoice.challan-mode .challan-items-table .total-row td,
+  .invoice.challan-mode .challan-total-row td,
+  .invoice.challan-mode .manual-total-cell {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+  }
+
+  .invoice.challan-mode .challan-purpose-row,
+  .invoice.challan-mode .challan-purpose-row strong {
+    font-size: 14px !important;
+  }
+
+  .invoice.challan-mode .purpose-badge {
+    font-size: 13px !important;
+  }
+
+  .invoice.challan-mode .declaration h4 {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+  }
+
+  .invoice.challan-mode .declaration p {
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+  }
+
+  .invoice.challan-mode .signature strong:first-child,
+  .invoice.challan-mode .signatory-label {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+  }
+
+  .invoice.challan-mode .invoice-footer,
+  .invoice.challan-mode .invoice-footer p {
+    font-size: 12px !important;
+  }
+
+  /* Compact Challan in Print */
+  .invoice.challan-mode.compact-table {
+    font-size: 13px !important;
+  }
+  .invoice.challan-mode.compact-table .invoice-title {
+    font-size: 19px !important;
+  }
+  .invoice.challan-mode.compact-table .company-details h2 {
+    font-size: 21px !important;
+  }
+  .invoice.challan-mode.compact-table .company-details p,
+  .invoice.challan-mode.compact-table .company-contact,
+  .invoice.challan-mode.compact-table .meta-label,
+  .invoice.challan-mode.compact-table .meta-value,
+  .invoice.challan-mode.compact-table .buyer-details p {
+    font-size: 13px !important;
+  }
+  .invoice.challan-mode.compact-table .challan-items-table th {
+    font-size: 12px !important;
+    padding: 5px 4px !important;
+  }
+  .invoice.challan-mode.compact-table .challan-items-table td,
+  .invoice.challan-mode.compact-table .challan-items-table .item-row td {
+    font-size: 13px !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+  }
+  .invoice.challan-mode.compact-table .challan-items-table .total-row td,
+  .invoice.challan-mode.compact-table .manual-total-cell {
+    font-size: 14px !important;
+  }
+  .invoice.challan-mode.compact-table .challan-purpose-row,
+  .invoice.challan-mode.compact-table .challan-purpose-row strong {
+    font-size: 13px !important;
+  }
+  .invoice.challan-mode.compact-table .declaration p,
+  .invoice.challan-mode.compact-table .signature strong:first-child,
+  .invoice.challan-mode.compact-table .signatory-label {
+    font-size: 12px !important;
+  }
+  .invoice.challan-mode.compact-table .invoice-footer,
+  .invoice.challan-mode.compact-table .invoice-footer p {
+    font-size: 11px !important;
+  }
+
+  /* Ultra/Super Compact Challan in Print */
+  .invoice.challan-mode.ultra-compact-table,
+  .invoice.challan-mode.super-compact-table {
+    font-size: 12px !important;
+  }
+  .invoice.challan-mode.ultra-compact-table .invoice-title,
+  .invoice.challan-mode.super-compact-table .invoice-title {
+    font-size: 18px !important;
+  }
+  .invoice.challan-mode.ultra-compact-table .company-details h2,
+  .invoice.challan-mode.super-compact-table .company-details h2 {
+    font-size: 20px !important;
+  }
+  .invoice.challan-mode.ultra-compact-table .company-details p,
+  .invoice.challan-mode.super-compact-table .company-details p,
+  .invoice.challan-mode.ultra-compact-table .company-contact,
+  .invoice.challan-mode.super-compact-table .company-contact,
+  .invoice.challan-mode.ultra-compact-table .meta-label,
+  .invoice.challan-mode.super-compact-table .meta-label,
+  .invoice.challan-mode.ultra-compact-table .meta-value,
+  .invoice.challan-mode.super-compact-table .meta-value,
+  .invoice.challan-mode.ultra-compact-table .buyer-details p,
+  .invoice.challan-mode.super-compact-table .buyer-details p {
+    font-size: 12px !important;
+  }
+  .invoice.challan-mode.ultra-compact-table .challan-items-table th,
+  .invoice.challan-mode.super-compact-table .challan-items-table th {
+    font-size: 11px !important;
+    padding: 4px 3px !important;
+  }
+  .invoice.challan-mode.ultra-compact-table .challan-items-table td,
+  .invoice.challan-mode.super-compact-table .challan-items-table td,
+  .invoice.challan-mode.ultra-compact-table .challan-items-table .item-row td,
+  .invoice.challan-mode.super-compact-table .challan-items-table .item-row td {
+    font-size: 12px !important;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+  }
+  .invoice.challan-mode.ultra-compact-table .challan-items-table .total-row td,
+  .invoice.challan-mode.super-compact-table .challan-items-table .total-row td,
+  .invoice.challan-mode.ultra-compact-table .manual-total-cell,
+  .invoice.challan-mode.super-compact-table .manual-total-cell {
+    font-size: 13px !important;
+  }
+  .invoice.challan-mode.ultra-compact-table .challan-purpose-row,
+  .invoice.challan-mode.super-compact-table .challan-purpose-row,
+  .invoice.challan-mode.ultra-compact-table .challan-purpose-row strong,
+  .invoice.challan-mode.super-compact-table .challan-purpose-row strong {
+    font-size: 12px !important;
+  }
+  .invoice.challan-mode.ultra-compact-table .declaration p,
+  .invoice.challan-mode.super-compact-table .declaration p,
+  .invoice.challan-mode.ultra-compact-table .signature strong:first-child,
+  .invoice.challan-mode.super-compact-table .signature strong:first-child,
+  .invoice.challan-mode.ultra-compact-table .signatory-label,
+  .invoice.challan-mode.super-compact-table .signatory-label {
+    font-size: 11px !important;
+  }
+  .invoice.challan-mode.ultra-compact-table .invoice-footer,
+  .invoice.challan-mode.super-compact-table .invoice-footer,
+  .invoice.challan-mode.ultra-compact-table .invoice-footer p,
+  .invoice.challan-mode.super-compact-table .invoice-footer p {
+    font-size: 10px !important;
+  }
 }
 
 /* =========================================
-   CHALLAN PURPOSE & NOTICE BOX
+   DELIVERY CHALLAN SPECIFIC STYLES (SCREEN & PREVIEW)
+   Font sizes: Base 14px, Company 22px bold, Title 20px bold,
+   Table th 13px bold, Table td 14px with 8-10px padding,
+   Total Quantity 15px bold, Goods Sent For 14px,
+   Declaration 13px, Signature labels 13px, Footer 12px
 ========================================= */
 
+.invoice.challan-mode {
+  font-size: 14px;
+}
+
+.invoice.challan-mode .invoice-title {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+}
+
+.invoice.challan-mode .company-details h2 {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+}
+
+.invoice.challan-mode .company-details p,
+.invoice.challan-mode .company-contact {
+  font-size: 14px !important;
+  line-height: 1.35;
+}
+
+.invoice.challan-mode .meta-label {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+.invoice.challan-mode .meta-value {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+.invoice.challan-mode .section-label {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+}
+
+.invoice.challan-mode .buyer-details h3 {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+}
+
+.invoice.challan-mode .buyer-details p {
+  font-size: 14px !important;
+  line-height: 1.35;
+}
+
+.invoice.challan-mode .buyer-details strong {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+/* Challan Items Table */
+.invoice.challan-mode .challan-items-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  box-sizing: border-box;
+}
+
+.invoice.challan-mode .challan-items-table th,
+.invoice.challan-mode .challan-items-table td {
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.invoice.challan-mode .challan-items-table th {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  padding: 6px 5px !important;
+}
+
+.invoice.challan-mode .challan-items-table td,
+.invoice.challan-mode .challan-items-table .item-row td {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
+  padding-left: 6px !important;
+  padding-right: 6px !important;
+}
+
+/* Total Quantity Row */
+.invoice.challan-mode .challan-items-table .total-row td,
+.invoice.challan-mode .challan-total-row td,
+.invoice.challan-mode .manual-total-cell {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  padding-left: 6px !important;
+  padding-right: 6px !important;
+}
+
+/* Challan Goods Dispatch Purpose Box */
 .challan-info-box {
   border-left: 1px solid #222;
   border-right: 1px solid #222;
   border-bottom: 1px solid #222;
-  padding: 6px 10px;
+  padding: 8px 10px;
   background: #fbfbfc;
   flex-shrink: 0;
+  box-sizing: border-box;
 }
 
-.challan-purpose-row {
+.invoice.challan-mode .challan-purpose-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 12px;
-  margin-bottom: 4px;
+  font-size: 14px !important;
+  margin-bottom: 0;
   color: #000;
 }
 
-.challan-purpose-row strong {
-  font-weight: 700;
+.invoice.challan-mode .challan-purpose-row strong {
+  font-size: 14px !important;
+  font-weight: 700 !important;
   color: #000;
 }
 
-.purpose-badge {
+.invoice.challan-mode .purpose-badge {
   display: inline-block;
   font-weight: 700;
   text-transform: uppercase;
@@ -935,31 +1252,151 @@ table {
   background: #f0f0f0;
   border: 1px solid #222;
   border-radius: 3px;
-  font-size: 11px;
+  font-size: 13px !important;
   color: #000;
 }
 
-.challan-notice {
-  text-align: center;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  color: #000;
-  padding-top: 3px;
-  border-top: 1px dashed #222;
+/* Declaration */
+.invoice.challan-mode .declaration h4 {
+  font-size: 14px !important;
+  font-weight: 700 !important;
 }
 
-.challan-items-table th {
-  padding: 3px 5px;
+.invoice.challan-mode .declaration p {
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+}
+
+/* Signature */
+.invoice.challan-mode .signature strong:first-child {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+
+.invoice.challan-mode .signatory-label {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+
+/* Footer Line */
+.invoice.challan-mode .invoice-footer,
+.invoice.challan-mode .invoice-footer p {
+  font-size: 12px !important;
+  line-height: 1.35;
+}
+
+/* Single-page fit font reductions when there are many items (reduced by up to 2px) */
+.invoice.challan-mode.compact-table {
+  font-size: 13px;
+}
+.invoice.challan-mode.compact-table .invoice-title {
+  font-size: 19px !important;
+}
+.invoice.challan-mode.compact-table .company-details h2 {
+  font-size: 21px !important;
+}
+.invoice.challan-mode.compact-table .company-details p,
+.invoice.challan-mode.compact-table .company-contact,
+.invoice.challan-mode.compact-table .meta-label,
+.invoice.challan-mode.compact-table .meta-value,
+.invoice.challan-mode.compact-table .buyer-details p {
+  font-size: 13px !important;
+}
+.invoice.challan-mode.compact-table .challan-items-table th {
+  font-size: 12px !important;
+  padding: 5px 4px !important;
+}
+.invoice.challan-mode.compact-table .challan-items-table td,
+.invoice.challan-mode.compact-table .challan-items-table .item-row td {
+  font-size: 13px !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+}
+.invoice.challan-mode.compact-table .challan-items-table .total-row td,
+.invoice.challan-mode.compact-table .manual-total-cell {
+  font-size: 14px !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+.invoice.challan-mode.compact-table .challan-purpose-row,
+.invoice.challan-mode.compact-table .challan-purpose-row strong {
+  font-size: 13px !important;
+}
+.invoice.challan-mode.compact-table .declaration p,
+.invoice.challan-mode.compact-table .signature strong:first-child,
+.invoice.challan-mode.compact-table .signatory-label {
+  font-size: 12px !important;
+}
+.invoice.challan-mode.compact-table .invoice-footer,
+.invoice.challan-mode.compact-table .invoice-footer p {
+  font-size: 11px !important;
+}
+
+/* 8+ items: reduce by up to 2px */
+.invoice.challan-mode.ultra-compact-table,
+.invoice.challan-mode.super-compact-table {
   font-size: 12px;
-  color: #000;
 }
-
-.challan-items-table td {
-  padding: 3px 5px;
-  font-size: 11.5px;
-  color: #000;
+.invoice.challan-mode.ultra-compact-table .invoice-title,
+.invoice.challan-mode.super-compact-table .invoice-title {
+  font-size: 18px !important;
+}
+.invoice.challan-mode.ultra-compact-table .company-details h2,
+.invoice.challan-mode.super-compact-table .company-details h2 {
+  font-size: 20px !important;
+}
+.invoice.challan-mode.ultra-compact-table .company-details p,
+.invoice.challan-mode.super-compact-table .company-details p,
+.invoice.challan-mode.ultra-compact-table .company-contact,
+.invoice.challan-mode.super-compact-table .company-contact,
+.invoice.challan-mode.ultra-compact-table .meta-label,
+.invoice.challan-mode.super-compact-table .meta-label,
+.invoice.challan-mode.ultra-compact-table .meta-value,
+.invoice.challan-mode.super-compact-table .meta-value,
+.invoice.challan-mode.ultra-compact-table .buyer-details p,
+.invoice.challan-mode.super-compact-table .buyer-details p {
+  font-size: 12px !important;
+}
+.invoice.challan-mode.ultra-compact-table .challan-items-table th,
+.invoice.challan-mode.super-compact-table .challan-items-table th {
+  font-size: 11px !important;
+  padding: 4px 3px !important;
+}
+.invoice.challan-mode.ultra-compact-table .challan-items-table td,
+.invoice.challan-mode.super-compact-table .challan-items-table td,
+.invoice.challan-mode.ultra-compact-table .challan-items-table .item-row td,
+.invoice.challan-mode.super-compact-table .challan-items-table .item-row td {
+  font-size: 12px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
+.invoice.challan-mode.ultra-compact-table .challan-items-table .total-row td,
+.invoice.challan-mode.super-compact-table .challan-items-table .total-row td,
+.invoice.challan-mode.ultra-compact-table .manual-total-cell,
+.invoice.challan-mode.super-compact-table .manual-total-cell {
+  font-size: 13px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
+.invoice.challan-mode.ultra-compact-table .challan-purpose-row,
+.invoice.challan-mode.super-compact-table .challan-purpose-row,
+.invoice.challan-mode.ultra-compact-table .challan-purpose-row strong,
+.invoice.challan-mode.super-compact-table .challan-purpose-row strong {
+  font-size: 12px !important;
+}
+.invoice.challan-mode.ultra-compact-table .declaration p,
+.invoice.challan-mode.super-compact-table .declaration p,
+.invoice.challan-mode.ultra-compact-table .signature strong:first-child,
+.invoice.challan-mode.super-compact-table .signature strong:first-child,
+.invoice.challan-mode.ultra-compact-table .signatory-label,
+.invoice.challan-mode.super-compact-table .signatory-label {
+  font-size: 11px !important;
+}
+.invoice.challan-mode.ultra-compact-table .invoice-footer,
+.invoice.challan-mode.super-compact-table .invoice-footer,
+.invoice.challan-mode.ultra-compact-table .invoice-footer p,
+.invoice.challan-mode.super-compact-table .invoice-footer p {
+  font-size: 10px !important;
 }
 
 /* =========================================

@@ -16,6 +16,7 @@ import { shareViaWhatsApp } from '../utils/shareUtils';
 import ShareEmailModal from './ShareEmailModal';
 import { motion } from 'framer-motion';
 import InvoiceTemplate from './InvoiceTemplate';
+import { getChallanFromDexie, syncChallanToDexie } from '../db/dexieDb';
 
 export default function DeliveryChallanPreviewPage() {
   const navigate = useNavigate();
@@ -45,12 +46,27 @@ export default function DeliveryChallanPreviewPage() {
           .eq('id', id)
           .single();
 
-        if (fetchErr || !data) {
+        const dexieRecord = await getChallanFromDexie(id);
+        let finalData = data;
+
+        if (finalData) {
+          if ((finalData.total_manual === undefined || finalData.total_manual === null) && dexieRecord) {
+            finalData.total_manual = dexieRecord.total_manual;
+            finalData.total_text = dexieRecord.total_text;
+          }
+          // Sync Dexie with latest data from Supabase
+          await syncChallanToDexie(finalData, finalData.delivery_challan_items);
+        } else if (dexieRecord) {
+          // Fallback to local Dexie database if offline or record not in Supabase
+          finalData = dexieRecord;
+        }
+
+        if (!finalData) {
           console.error('Error fetching delivery challan for preview:', fetchErr);
           setError(fetchErr?.message || 'Failed to load delivery challan record.');
           setChallan(null);
         } else {
-          setChallan(data);
+          setChallan(finalData);
         }
       } catch (err) {
         console.error('Unexpected exception loading delivery challan:', err);

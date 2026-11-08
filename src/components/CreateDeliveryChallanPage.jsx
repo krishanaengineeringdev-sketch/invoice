@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar';
+import { syncChallanToDexie, getChallanFromDexie } from '../db/dexieDb';
 
 // Indian Financial Year calculation helper (April 1 to March 31)
 function getIndianFinancialYear(dateObj = new Date()) {
@@ -78,6 +79,10 @@ export default function CreateDeliveryChallanPage() {
     },
   ]);
 
+  // Manual Total Quantity Override State
+  const [totalManual, setTotalManual] = useState(false);
+  const [totalText, setTotalText] = useState('');
+
   // Loading & Alert States
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -122,29 +127,43 @@ export default function CreateDeliveryChallanPage() {
             .eq('id', id)
             .single();
 
-          if (error || !data) {
-            setSaveError('Failed to load requested delivery challan.');
-          } else {
-            setChallanNo(data.challan_no || '');
-            setChallanDate(data.challan_date || new Date().toISOString().split('T')[0]);
-            setPurpose(data.purpose || 'Job Work');
-            setStatus(data.status || 'pending');
-            setVehicleNo(data.vehicle_no || '');
-            setBuyerOrderNo(data.buyer_order_no || '');
-            setDispatchThrough(data.dispatch_through || 'ROAD');
-            setDestination(data.destination || '');
-            setClientId(data.client_id || '');
+          const dexieRecord = await getChallanFromDexie(id);
+          let challanData = data;
 
-            if (data.clients) {
-              setBuyerName(data.clients.name || '');
-              setBuyerAddress(data.clients.address || '');
-              setBuyerGstin(data.clients.gstin || '');
-              setBuyerEmail(data.clients.email || '');
+          if (challanData) {
+            if ((challanData.total_manual === undefined || challanData.total_manual === null) && dexieRecord) {
+              challanData.total_manual = dexieRecord.total_manual;
+              challanData.total_text = dexieRecord.total_text;
+            }
+          } else if (dexieRecord) {
+            challanData = dexieRecord;
+          }
+
+          if (error && !challanData) {
+            setSaveError('Failed to load requested delivery challan.');
+          } else if (challanData) {
+            setChallanNo(challanData.challan_no || '');
+            setChallanDate(challanData.challan_date || new Date().toISOString().split('T')[0]);
+            setPurpose(challanData.purpose || 'Job Work');
+            setStatus(challanData.status || 'pending');
+            setVehicleNo(challanData.vehicle_no || '');
+            setBuyerOrderNo(challanData.buyer_order_no || '');
+            setDispatchThrough(challanData.dispatch_through || 'ROAD');
+            setDestination(challanData.destination || '');
+            setClientId(challanData.client_id || '');
+            setTotalManual(Boolean(challanData.total_manual));
+            setTotalText(challanData.total_text || '');
+
+            if (challanData.clients) {
+              setBuyerName(challanData.clients.name || '');
+              setBuyerAddress(challanData.clients.address || '');
+              setBuyerGstin(challanData.clients.gstin || '');
+              setBuyerEmail(challanData.clients.email || '');
             }
 
-            if (data.delivery_challan_items && data.delivery_challan_items.length > 0) {
+            if (challanData.delivery_challan_items && challanData.delivery_challan_items.length > 0) {
               setItems(
-                data.delivery_challan_items.map((item, idx) => ({
+                challanData.delivery_challan_items.map((item, idx) => ({
                   id: item.id || idx + 1,
                   mode: 'new',
                   selectedMaterialId: '',
@@ -272,6 +291,39 @@ export default function CreateDeliveryChallanPage() {
     }
   };
 
+  // Item Unit & Auto Sum Calculations
+  const validLineItems = items.filter(
+    (item) => item.description && item.description.trim() && parseFloat(item.quantity) > 0
+  );
+  const lineUnits = validLineItems.map((it) => (it.per || 'NOS').trim().toUpperCase());
+  const uniqueUnits = [...new Set(lineUnits)];
+  const hasMixedUnits = uniqueUnits.length > 1;
+  const singleUnit = uniqueUnits.length === 1 ? uniqueUnits[0] : (lineUnits[0] || 'NOS');
+  const autoSumQty = items.reduce((acc, curr) => acc + (parseFloat(curr.quantity) || 0), 0);
+
+  // Toggle Manual Total Override
+  const handleToggleManualTotal = () => {
+    const nextState = !totalManual;
+    setTotalManual(nextState);
+    if (nextState && !totalText.trim()) {
+      if (hasMixedUnits) {
+        // Group by unit to create a helpful starting string like "9 SET + 4 NOS"
+        const qtyByUnit = {};
+        validLineItems.forEach((it) => {
+          const u = (it.per || 'NOS').trim().toUpperCase();
+          const q = parseFloat(it.quantity) || 0;
+          qtyByUnit[u] = (qtyByUnit[u] || 0) + q;
+        });
+        const grouped = Object.entries(qtyByUnit)
+          .map(([u, q]) => `${q} ${u}`)
+          .join(' + ');
+        setTotalText(grouped || `${autoSumQty} NOS`);
+      } else {
+        setTotalText(`${autoSumQty} ${singleUnit || 'NOS'}`);
+      }
+    }
+  };
+
   // Save Challan Handler
   const handleSaveChallan = async (andPreview = false) => {
     setValidationError('');
@@ -286,11 +338,7 @@ export default function CreateDeliveryChallanPage() {
       return;
     }
 
-    const validItems = items.filter(
-      (item) => item.description && item.description.trim() && parseFloat(item.quantity) > 0
-    );
-
-    if (validItems.length === 0) {
+    if (validLineItems.length === 0) {
       setValidationError('Please add at least one line item with description and quantity > 0.');
       return;
     }
@@ -340,16 +388,30 @@ export default function CreateDeliveryChallanPage() {
         buyer_order_no: buyerOrderNo.trim() || null,
         dispatch_through: dispatchThrough.trim() || 'ROAD',
         destination: destination.trim() || 'COIMBATORE',
+        total_manual: Boolean(totalManual),
+        total_text: totalManual ? totalText.trim() : null,
       };
 
       let savedChallanId = id;
 
       if (id) {
         // UPDATE MODE
-        const { error: updateErr } = await supabase
+        let { error: updateErr } = await supabase
           .from('delivery_challans')
           .update(challanPayload)
           .eq('id', id);
+
+        if (updateErr && updateErr.code === '42703') {
+          // Columns total_manual / total_text not in Postgres table yet
+          const fallbackPayload = { ...challanPayload };
+          delete fallbackPayload.total_manual;
+          delete fallbackPayload.total_text;
+          const retry = await supabase
+            .from('delivery_challans')
+            .update(fallbackPayload)
+            .eq('id', id);
+          updateErr = retry.error;
+        }
 
         if (updateErr) throw new Error(updateErr.message || 'Failed to update delivery challan.');
 
@@ -360,18 +422,32 @@ export default function CreateDeliveryChallanPage() {
           .eq('challan_id', id);
       } else {
         // INSERT MODE
-        const { data: newChallan, error: insertErr } = await supabase
+        let { data: newChallan, error: insertErr } = await supabase
           .from('delivery_challans')
           .insert(challanPayload)
           .select()
           .single();
+
+        if (insertErr && insertErr.code === '42703') {
+          // Columns total_manual / total_text not in Postgres table yet
+          const fallbackPayload = { ...challanPayload };
+          delete fallbackPayload.total_manual;
+          delete fallbackPayload.total_text;
+          const retry = await supabase
+            .from('delivery_challans')
+            .insert(fallbackPayload)
+            .select()
+            .single();
+          insertErr = retry.error;
+          newChallan = retry.data;
+        }
 
         if (insertErr) throw new Error(insertErr.message || 'Failed to create delivery challan.');
         savedChallanId = newChallan.id;
       }
 
       // 3. Insert Delivery Challan Items
-      const itemsPayload = validItems.map((item) => ({
+      const itemsPayload = validLineItems.map((item) => ({
         challan_id: savedChallanId,
         description: item.description.trim(),
         hsn_sac: item.hsn_sac ? item.hsn_sac.trim() : null,
@@ -387,6 +463,12 @@ export default function CreateDeliveryChallanPage() {
       if (itemsErr) {
         throw new Error(itemsErr.message || 'Challan created, but failed to save line items.');
       }
+
+      // 4. Sync through Dexie Local Database
+      await syncChallanToDexie(
+        { id: savedChallanId, ...challanPayload },
+        itemsPayload
+      );
 
       setIsSaved(true);
 
@@ -883,21 +965,58 @@ export default function CreateDeliveryChallanPage() {
               </table>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+            <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 pt-3 border-t border-slate-100">
               <button
                 type="button"
                 onClick={handleAddItem}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 min-h-[44px] rounded-xl bg-slate-100 hover:bg-slate-200 text-[#36454F] text-xs font-bold transition-colors cursor-pointer"
+                className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 min-h-[44px] rounded-xl bg-slate-100 hover:bg-slate-200 text-[#36454F] text-xs font-bold transition-colors cursor-pointer"
               >
                 <Plus className="w-4 h-4 text-[#F2A104]" />
                 <span>Add Another Item</span>
               </button>
 
-              <div className="text-xs font-medium text-slate-500 self-end sm:self-auto">
-                Total Quantity:{' '}
-                <span className="font-mono font-bold text-[#36454F]">
-                  {items.reduce((acc, curr) => acc + (parseFloat(curr.quantity) || 0), 0)}
-                </span>
+              {/* Total Quantity & Manual Override Toggle */}
+              <div className="flex flex-wrap items-center justify-end gap-3 bg-slate-50 p-2.5 rounded-xl border border-slate-200/70">
+                {/* Small toggle for editing total manually */}
+                <label className="inline-flex items-center gap-2 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={totalManual}
+                    onChange={handleToggleManualTotal}
+                    className="sr-only peer"
+                  />
+                  <div className="relative w-8 h-4.5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-[#F2A104]"></div>
+                  <span className="text-xs font-semibold text-[#5C7A99] hover:text-[#36454F]">
+                    Edit total manually
+                  </span>
+                </label>
+
+                <div className="h-4 w-px bg-slate-300 hidden sm:block"></div>
+
+                {/* Display Value: Manual Input vs Auto Sum */}
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-medium text-slate-500">Total Quantity:</span>
+                  {totalManual ? (
+                    <input
+                      type="text"
+                      value={totalText}
+                      onChange={(e) => setTotalText(e.target.value)}
+                      placeholder="e.g. 9 SET or 9 SET + 4 NOS"
+                      className="px-2.5 py-1 text-xs font-mono font-bold bg-white border border-[#F2A104] rounded-lg text-[#36454F] focus:ring-2 focus:ring-[#F2A104]/30 focus:outline-none w-44 sm:w-56 shadow-2xs"
+                      title="Type custom total quantity and unit"
+                    />
+                  ) : (
+                    <span className="font-mono font-bold text-[#36454F] text-xs sm:text-sm">
+                      {hasMixedUnits ? (
+                        <span className="text-amber-700 bg-amber-50 border border-amber-200 text-[11px] font-sans font-medium px-2 py-0.5 rounded">
+                          Different units (leave unit blank or edit manually)
+                        </span>
+                      ) : (
+                        `${autoSumQty} ${singleUnit || 'NOS'}`
+                      )}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           </section>

@@ -16,8 +16,15 @@ CREATE TABLE IF NOT EXISTS delivery_challans (
   vehicle_no text,
   purpose text DEFAULT 'Job Work', -- e.g. 'Job Work', 'Returnable', 'Sale on Approval', 'Sample'
   status text DEFAULT 'pending',   -- 'pending', 'delivered', 'converted'
+  total_manual boolean DEFAULT false,
+  total_text text,
   created_at timestamp with time zone DEFAULT now()
 );
+
+-- 1b. Support manual total calculation columns for existing tables
+ALTER TABLE delivery_challans 
+ADD COLUMN IF NOT EXISTS total_manual boolean DEFAULT false,
+ADD COLUMN IF NOT EXISTS total_text text;
 
 -- 2. Create delivery_challan_items table
 CREATE TABLE IF NOT EXISTS delivery_challan_items (
