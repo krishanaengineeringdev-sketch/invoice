@@ -154,7 +154,9 @@ export default function InvoiceTemplate({ data = {}, type = 'invoice' }) {
   // Dynamic single-page fit scaling based on line item count
   const pageFitClass = isChallan
     ? (lineItems.length > 10 ? 'super-compact-table' : (lineItems.length > 7 ? 'ultra-compact-table' : (lineItems.length > 5 ? 'compact-table' : '')))
-    : (lineItems.length > 10 ? 'super-compact-table' : (lineItems.length > 7 ? 'ultra-compact-table' : (lineItems.length > 4 ? 'compact-table' : '')));
+    : isQuotation
+      ? (lineItems.length > 9 ? 'super-compact-table' : (lineItems.length > 6 ? 'ultra-compact-table' : (lineItems.length > 3 ? 'compact-table' : '')))
+      : (lineItems.length > 10 ? 'super-compact-table' : (lineItems.length > 7 ? 'ultra-compact-table' : (lineItems.length > 4 ? 'compact-table' : '')));
 
   // Helper for 2 decimals
   const fmt = (num) => (typeof num === 'number' ? num : parseFloat(num) || 0).toFixed(2);
@@ -166,7 +168,7 @@ export default function InvoiceTemplate({ data = {}, type = 'invoice' }) {
   const docDate = data.challan_date || data.invoice_date || data.quotation_date;
 
   return (
-    <div className={`invoice ${pageFitClass} ${isChallan ? 'challan-mode' : ''}`}>
+    <div className={`invoice ${pageFitClass} ${isChallan ? 'challan-mode' : ''} ${isQuotation ? 'quotation-mode' : ''}`}>
 
       {/* ================= HEADER ================= */}
       <div className="invoice-title">
@@ -563,12 +565,14 @@ export default function InvoiceTemplate({ data = {}, type = 'invoice' }) {
       {/* ================= FOOTER ================= */}
       <div className="invoice-footer">
 
-        {!isChallan && <p>Subject to Coimbatore Jurisdiction</p>}
+        {!isChallan && !isQuotation && <p>Subject to Coimbatore Jurisdiction</p>}
 
         {isChallan ? (
           <p>This is a Computer Generated Delivery Challan</p>
+        ) : isQuotation ? (
+          <p>This is a Computer Generated Quotation</p>
         ) : (
-          <p>{isQuotation ? 'This is a Computer Generated Quotation' : 'This is a Computer Generated Invoice'}</p>
+          <p>This is a Computer Generated Invoice</p>
         )}
 
       </div>

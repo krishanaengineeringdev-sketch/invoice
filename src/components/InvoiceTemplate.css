@@ -1119,6 +1119,387 @@ table {
   .invoice.challan-mode.super-compact-table .invoice-footer p {
     font-size: 10px !important;
   }
+
+  /* =========================================
+     PRINT / PDF OVERRIDES FOR QUOTATION
+     Pure black #000, 1-page fit, bigger fonts
+  ========================================= */
+  .invoice.quotation-mode {
+    font-size: 14px !important;
+    color: #000 !important;
+    overflow: hidden !important;
+    width: 210mm !important;
+    max-width: 210mm !important;
+    box-sizing: border-box !important;
+  }
+
+  .invoice.quotation-mode * {
+    color: #000 !important;
+    box-sizing: border-box !important;
+  }
+
+  .invoice.quotation-mode .invoice-title {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+  }
+
+  .invoice.quotation-mode .company-details h2 {
+    font-size: 22px !important;
+    font-weight: 700 !important;
+  }
+
+  .invoice.quotation-mode .company-details p,
+  .invoice.quotation-mode .company-contact {
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+  }
+
+  .invoice.quotation-mode .buyer-details p,
+  .invoice.quotation-mode .buyer-details strong,
+  .invoice.quotation-mode .meta-label,
+  .invoice.quotation-mode .meta-value {
+    font-size: 13px !important;
+  }
+
+  .invoice.quotation-mode .buyer-details h3 {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+  }
+
+  .invoice.quotation-mode .section-label {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+  }
+
+  /* Items Table: fixed layout, widths & nowrap */
+  .invoice.quotation-mode .items-table {
+    table-layout: fixed !important;
+    width: 100% !important;
+    border-collapse: collapse !important;
+    box-sizing: border-box !important;
+  }
+
+  .invoice.quotation-mode .items-table th {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    padding: 6px 4px !important;
+    box-sizing: border-box !important;
+  }
+
+  .invoice.quotation-mode .items-table td,
+  .invoice.quotation-mode .items-table .item-row td {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    box-sizing: border-box !important;
+  }
+
+  .invoice.quotation-mode .items-table .sl { width: 6% !important; }
+  .invoice.quotation-mode .items-table .description { width: 28% !important; }
+  .invoice.quotation-mode .items-table .hsn { width: 10% !important; }
+  .invoice.quotation-mode .items-table .qty { width: 10% !important; }
+  .invoice.quotation-mode .items-table .rate { width: 11% !important; }
+  .invoice.quotation-mode .items-table .unit { width: 7% !important; }
+  .invoice.quotation-mode .items-table .discount { width: 8% !important; }
+  .invoice.quotation-mode .items-table .amount { width: 20% !important; }
+
+  .invoice.quotation-mode .items-table td:nth-child(5),
+  .invoice.quotation-mode .items-table td:nth-child(8),
+  .invoice.quotation-mode .items-table .rate,
+  .invoice.quotation-mode .items-table .amount {
+    white-space: nowrap !important;
+  }
+
+  /* Totals rows (CGST, SGST, Rounded off, Total) 14px bold */
+  .invoice.quotation-mode .tax-row td,
+  .invoice.quotation-mode .tax-row .tax-label,
+  .invoice.quotation-mode .round-row td,
+  .invoice.quotation-mode .round-row .round-label,
+  .invoice.quotation-mode .total-row td {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    white-space: nowrap !important;
+  }
+
+  /* Amount in Words */
+  .invoice.quotation-mode .amount-words strong {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+  }
+
+  .invoice.quotation-mode .amount-words p {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+  }
+
+  .invoice.quotation-mode .amount-words .eoe {
+    font-size: 12px !important;
+  }
+
+  /* Tax summary table: 13px, header 12.5px bold, fixed layout */
+  .invoice.quotation-mode .tax-summary {
+    table-layout: fixed !important;
+    width: 100% !important;
+    border-collapse: collapse !important;
+    box-sizing: border-box !important;
+  }
+
+  .invoice.quotation-mode .tax-summary th {
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    padding: 4px 3px !important;
+    box-sizing: border-box !important;
+  }
+
+  .invoice.quotation-mode .tax-summary td {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    padding: 4px 3px !important;
+    box-sizing: border-box !important;
+    white-space: nowrap !important;
+  }
+
+  .invoice.quotation-mode .tax-summary .tax-total,
+  .invoice.quotation-mode .tax-summary .tax-total td {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    padding: 4px 3px !important;
+    white-space: nowrap !important;
+  }
+
+  /* Tax Amount (in words) 14px */
+  .invoice.quotation-mode .tax-words,
+  .invoice.quotation-mode .tax-words strong,
+  .invoice.quotation-mode .tax-words span {
+    font-size: 14px !important;
+    line-height: 1.35 !important;
+  }
+
+  /* Declaration: title 14px bold, text 13px */
+  .invoice.quotation-mode .declaration h4 {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+  }
+
+  .invoice.quotation-mode .declaration p {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    line-height: 1.35 !important;
+  }
+
+  /* Signatures: 14px bold */
+  .invoice.quotation-mode .signature strong:first-child,
+  .invoice.quotation-mode .signatory-label {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+  }
+
+  /* Footer line: 12px centered */
+  .invoice.quotation-mode .invoice-footer,
+  .invoice.quotation-mode .invoice-footer p {
+    font-size: 12px !important;
+    text-align: center !important;
+    line-height: 1.35 !important;
+  }
+
+  /* Prevent page breaks across all key sections */
+  .invoice.quotation-mode .tax-summary,
+  .invoice.quotation-mode .bottom-section,
+  .invoice.quotation-mode .declaration,
+  .invoice.quotation-mode .signature,
+  .invoice.quotation-mode .amount-words,
+  .invoice.quotation-mode .tax-words,
+  .invoice.quotation-mode .items-table-wrapper,
+  .invoice.quotation-mode .items-table,
+  .invoice.quotation-mode .top-section,
+  .invoice.quotation-mode .buyer-section,
+  .invoice.quotation-mode .invoice-footer {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Compact Quotation in Print (reduced by 1px) */
+  .invoice.quotation-mode.compact-table {
+    font-size: 13px !important;
+  }
+  .invoice.quotation-mode.compact-table .invoice-title {
+    font-size: 19px !important;
+  }
+  .invoice.quotation-mode.compact-table .company-details h2 {
+    font-size: 21px !important;
+  }
+  .invoice.quotation-mode.compact-table .company-details p,
+  .invoice.quotation-mode.compact-table .company-contact,
+  .invoice.quotation-mode.compact-table .buyer-details p,
+  .invoice.quotation-mode.compact-table .buyer-details strong,
+  .invoice.quotation-mode.compact-table .meta-label,
+  .invoice.quotation-mode.compact-table .meta-value {
+    font-size: 12px !important;
+  }
+  .invoice.quotation-mode.compact-table .items-table th {
+    font-size: 12px !important;
+    padding: 5px 3px !important;
+  }
+  .invoice.quotation-mode.compact-table .items-table td,
+  .invoice.quotation-mode.compact-table .items-table .item-row td {
+    font-size: 13px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+  }
+  .invoice.quotation-mode.compact-table .tax-row td,
+  .invoice.quotation-mode.compact-table .tax-row .tax-label,
+  .invoice.quotation-mode.compact-table .round-row td,
+  .invoice.quotation-mode.compact-table .round-row .round-label,
+  .invoice.quotation-mode.compact-table .total-row td {
+    font-size: 13px !important;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+  }
+  .invoice.quotation-mode.compact-table .amount-words strong {
+    font-size: 12px !important;
+  }
+  .invoice.quotation-mode.compact-table .amount-words p {
+    font-size: 13px !important;
+  }
+  .invoice.quotation-mode.compact-table .tax-summary th {
+    font-size: 11.5px !important;
+    padding: 3px 2px !important;
+  }
+  .invoice.quotation-mode.compact-table .tax-summary td,
+  .invoice.quotation-mode.compact-table .tax-summary .tax-total td {
+    font-size: 12px !important;
+    padding: 3px 2px !important;
+  }
+  .invoice.quotation-mode.compact-table .tax-words,
+  .invoice.quotation-mode.compact-table .tax-words strong,
+  .invoice.quotation-mode.compact-table .tax-words span {
+    font-size: 13px !important;
+  }
+  .invoice.quotation-mode.compact-table .declaration h4 {
+    font-size: 13px !important;
+  }
+  .invoice.quotation-mode.compact-table .declaration p {
+    font-size: 12px !important;
+  }
+  .invoice.quotation-mode.compact-table .signature strong:first-child,
+  .invoice.quotation-mode.compact-table .signatory-label {
+    font-size: 13px !important;
+  }
+  .invoice.quotation-mode.compact-table .invoice-footer,
+  .invoice.quotation-mode.compact-table .invoice-footer p {
+    font-size: 11px !important;
+  }
+
+  /* Ultra & Super Compact Quotation in Print (reduced by up to 2px) */
+  .invoice.quotation-mode.ultra-compact-table,
+  .invoice.quotation-mode.super-compact-table {
+    font-size: 12px !important;
+  }
+  .invoice.quotation-mode.ultra-compact-table .invoice-title,
+  .invoice.quotation-mode.super-compact-table .invoice-title {
+    font-size: 18px !important;
+  }
+  .invoice.quotation-mode.ultra-compact-table .company-details h2,
+  .invoice.quotation-mode.super-compact-table .company-details h2 {
+    font-size: 20px !important;
+  }
+  .invoice.quotation-mode.ultra-compact-table .company-details p,
+  .invoice.quotation-mode.super-compact-table .company-details p,
+  .invoice.quotation-mode.ultra-compact-table .company-contact,
+  .invoice.quotation-mode.super-compact-table .company-contact,
+  .invoice.quotation-mode.ultra-compact-table .buyer-details p,
+  .invoice.quotation-mode.super-compact-table .buyer-details p,
+  .invoice.quotation-mode.ultra-compact-table .buyer-details strong,
+  .invoice.quotation-mode.super-compact-table .buyer-details strong,
+  .invoice.quotation-mode.ultra-compact-table .meta-label,
+  .invoice.quotation-mode.super-compact-table .meta-label,
+  .invoice.quotation-mode.ultra-compact-table .meta-value,
+  .invoice.quotation-mode.super-compact-table .meta-value {
+    font-size: 11.5px !important;
+  }
+  .invoice.quotation-mode.ultra-compact-table .items-table th,
+  .invoice.quotation-mode.super-compact-table .items-table th {
+    font-size: 11px !important;
+    padding: 4px 2px !important;
+  }
+  .invoice.quotation-mode.ultra-compact-table .items-table td,
+  .invoice.quotation-mode.super-compact-table .items-table td,
+  .invoice.quotation-mode.ultra-compact-table .items-table .item-row td,
+  .invoice.quotation-mode.super-compact-table .items-table .item-row td {
+    font-size: 12px !important;
+    padding-top: 3.5px !important;
+    padding-bottom: 3.5px !important;
+  }
+  .invoice.quotation-mode.ultra-compact-table .tax-row td,
+  .invoice.quotation-mode.super-compact-table .tax-row td,
+  .invoice.quotation-mode.ultra-compact-table .tax-row .tax-label,
+  .invoice.quotation-mode.super-compact-table .tax-row .tax-label,
+  .invoice.quotation-mode.ultra-compact-table .round-row td,
+  .invoice.quotation-mode.super-compact-table .round-row td,
+  .invoice.quotation-mode.ultra-compact-table .round-row .round-label,
+  .invoice.quotation-mode.super-compact-table .round-row .round-label,
+  .invoice.quotation-mode.ultra-compact-table .total-row td,
+  .invoice.quotation-mode.super-compact-table .total-row td {
+    font-size: 12px !important;
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+  }
+  .invoice.quotation-mode.ultra-compact-table .amount-words strong,
+  .invoice.quotation-mode.super-compact-table .amount-words strong {
+    font-size: 11.5px !important;
+  }
+  .invoice.quotation-mode.ultra-compact-table .amount-words p,
+  .invoice.quotation-mode.super-compact-table .amount-words p {
+    font-size: 12px !important;
+  }
+  .invoice.quotation-mode.ultra-compact-table .tax-summary th,
+  .invoice.quotation-mode.super-compact-table .tax-summary th {
+    font-size: 10.5px !important;
+    padding: 2.5px 2px !important;
+  }
+  .invoice.quotation-mode.ultra-compact-table .tax-summary td,
+  .invoice.quotation-mode.super-compact-table .tax-summary td,
+  .invoice.quotation-mode.ultra-compact-table .tax-summary .tax-total td,
+  .invoice.quotation-mode.super-compact-table .tax-summary .tax-total td {
+    font-size: 11px !important;
+    padding: 2.5px 2px !important;
+  }
+  .invoice.quotation-mode.ultra-compact-table .tax-words,
+  .invoice.quotation-mode.super-compact-table .tax-words,
+  .invoice.quotation-mode.ultra-compact-table .tax-words strong,
+  .invoice.quotation-mode.super-compact-table .tax-words strong,
+  .invoice.quotation-mode.ultra-compact-table .tax-words span,
+  .invoice.quotation-mode.super-compact-table .tax-words span {
+    font-size: 12px !important;
+  }
+  .invoice.quotation-mode.ultra-compact-table .declaration h4,
+  .invoice.quotation-mode.super-compact-table .declaration h4 {
+    font-size: 12px !important;
+  }
+  .invoice.quotation-mode.ultra-compact-table .declaration p,
+  .invoice.quotation-mode.super-compact-table .declaration p {
+    font-size: 11px !important;
+  }
+  .invoice.quotation-mode.ultra-compact-table .signature strong:first-child,
+  .invoice.quotation-mode.super-compact-table .signature strong:first-child,
+  .invoice.quotation-mode.ultra-compact-table .signatory-label,
+  .invoice.quotation-mode.super-compact-table .signatory-label {
+    font-size: 12px !important;
+  }
+  .invoice.quotation-mode.ultra-compact-table .invoice-footer,
+  .invoice.quotation-mode.super-compact-table .invoice-footer,
+  .invoice.quotation-mode.ultra-compact-table .invoice-footer p,
+  .invoice.quotation-mode.super-compact-table .invoice-footer p {
+    font-size: 10px !important;
+  }
 }
 
 /* =========================================
@@ -1406,6 +1787,368 @@ table {
 .invoice.challan-mode.super-compact-table .invoice-footer,
 .invoice.challan-mode.ultra-compact-table .invoice-footer p,
 .invoice.challan-mode.super-compact-table .invoice-footer p {
+  font-size: 10px !important;
+}
+
+/* =========================================
+   QUOTATION SPECIFIC STYLES (SCREEN & PREVIEW)
+   Font sizes: Base 14px, Company 22px bold, Title 20px bold,
+   Company details & Buyer details 13px,
+   Table th 13px bold, Table td 14px with 8px padding,
+   Totals 14px bold, Amount words 14px bold (label 13px),
+   Tax summary table 13px (header 12.5px bold),
+   Tax amount in words 14px, Declaration title 14px bold (text 13px),
+   Signatures 14px bold, Footer 12px centered, pure black #000
+========================================= */
+
+.invoice.quotation-mode {
+  font-size: 14px;
+  color: #000;
+}
+
+.invoice.quotation-mode * {
+  color: #000 !important;
+}
+
+.invoice.quotation-mode .invoice-title {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+}
+
+.invoice.quotation-mode .company-details h2 {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+}
+
+.invoice.quotation-mode .company-details p,
+.invoice.quotation-mode .company-contact {
+  font-size: 13px !important;
+  line-height: 1.35;
+}
+
+.invoice.quotation-mode .buyer-details p,
+.invoice.quotation-mode .buyer-details strong,
+.invoice.quotation-mode .meta-label,
+.invoice.quotation-mode .meta-value {
+  font-size: 13px !important;
+}
+
+.invoice.quotation-mode .buyer-details h3 {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+}
+
+.invoice.quotation-mode .section-label {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+/* Items Table */
+.invoice.quotation-mode .items-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  box-sizing: border-box;
+}
+
+.invoice.quotation-mode .items-table th {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  padding: 6px 4px !important;
+}
+
+.invoice.quotation-mode .items-table td,
+.invoice.quotation-mode .items-table .item-row td {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
+
+.invoice.quotation-mode .items-table .sl { width: 6% !important; }
+.invoice.quotation-mode .items-table .description { width: 28% !important; }
+.invoice.quotation-mode .items-table .hsn { width: 10% !important; }
+.invoice.quotation-mode .items-table .qty { width: 10% !important; }
+.invoice.quotation-mode .items-table .rate { width: 11% !important; }
+.invoice.quotation-mode .items-table .unit { width: 7% !important; }
+.invoice.quotation-mode .items-table .discount { width: 8% !important; }
+.invoice.quotation-mode .items-table .amount { width: 20% !important; }
+
+.invoice.quotation-mode .items-table td:nth-child(5),
+.invoice.quotation-mode .items-table td:nth-child(8),
+.invoice.quotation-mode .items-table .rate,
+.invoice.quotation-mode .items-table .amount {
+  white-space: nowrap !important;
+}
+
+/* Totals rows */
+.invoice.quotation-mode .tax-row td,
+.invoice.quotation-mode .tax-row .tax-label,
+.invoice.quotation-mode .round-row td,
+.invoice.quotation-mode .round-row .round-label,
+.invoice.quotation-mode .total-row td {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+  white-space: nowrap !important;
+}
+
+/* Amount Chargeable (in words) */
+.invoice.quotation-mode .amount-words strong {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+
+.invoice.quotation-mode .amount-words p {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  line-height: 1.35;
+}
+
+.invoice.quotation-mode .amount-words .eoe {
+  font-size: 12px !important;
+}
+
+/* Tax Summary Table */
+.invoice.quotation-mode .tax-summary {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  box-sizing: border-box;
+}
+
+.invoice.quotation-mode .tax-summary th {
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  padding: 4px 3px !important;
+}
+
+.invoice.quotation-mode .tax-summary td {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  padding: 4px 3px !important;
+  white-space: nowrap !important;
+}
+
+.invoice.quotation-mode .tax-summary .tax-total,
+.invoice.quotation-mode .tax-summary .tax-total td {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  padding: 4px 3px !important;
+  white-space: nowrap !important;
+}
+
+/* Tax Amount (in words) */
+.invoice.quotation-mode .tax-words,
+.invoice.quotation-mode .tax-words strong,
+.invoice.quotation-mode .tax-words span {
+  font-size: 14px !important;
+  line-height: 1.35;
+}
+
+/* Declaration */
+.invoice.quotation-mode .declaration h4 {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+.invoice.quotation-mode .declaration p {
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+}
+
+/* Signature */
+.invoice.quotation-mode .signature strong:first-child,
+.invoice.quotation-mode .signatory-label {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+/* Footer Line */
+.invoice.quotation-mode .invoice-footer,
+.invoice.quotation-mode .invoice-footer p {
+  font-size: 12px !important;
+  text-align: center !important;
+  line-height: 1.35;
+}
+
+/* Single-page fit font reductions when there are many items (reduced by up to 2px) */
+.invoice.quotation-mode.compact-table {
+  font-size: 13px;
+}
+.invoice.quotation-mode.compact-table .invoice-title {
+  font-size: 19px !important;
+}
+.invoice.quotation-mode.compact-table .company-details h2 {
+  font-size: 21px !important;
+}
+.invoice.quotation-mode.compact-table .company-details p,
+.invoice.quotation-mode.compact-table .company-contact,
+.invoice.quotation-mode.compact-table .buyer-details p,
+.invoice.quotation-mode.compact-table .buyer-details strong,
+.invoice.quotation-mode.compact-table .meta-label,
+.invoice.quotation-mode.compact-table .meta-value {
+  font-size: 12px !important;
+}
+.invoice.quotation-mode.compact-table .items-table th {
+  font-size: 12px !important;
+  padding: 5px 3px !important;
+}
+.invoice.quotation-mode.compact-table .items-table td,
+.invoice.quotation-mode.compact-table .items-table .item-row td {
+  font-size: 13px !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+.invoice.quotation-mode.compact-table .tax-row td,
+.invoice.quotation-mode.compact-table .tax-row .tax-label,
+.invoice.quotation-mode.compact-table .round-row td,
+.invoice.quotation-mode.compact-table .round-row .round-label,
+.invoice.quotation-mode.compact-table .total-row td {
+  font-size: 13px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
+.invoice.quotation-mode.compact-table .amount-words strong {
+  font-size: 12px !important;
+}
+.invoice.quotation-mode.compact-table .amount-words p {
+  font-size: 13px !important;
+}
+.invoice.quotation-mode.compact-table .tax-summary th {
+  font-size: 11.5px !important;
+  padding: 3px 2px !important;
+}
+.invoice.quotation-mode.compact-table .tax-summary td,
+.invoice.quotation-mode.compact-table .tax-summary .tax-total td {
+  font-size: 12px !important;
+  padding: 3px 2px !important;
+}
+.invoice.quotation-mode.compact-table .tax-words,
+.invoice.quotation-mode.compact-table .tax-words strong,
+.invoice.quotation-mode.compact-table .tax-words span {
+  font-size: 13px !important;
+}
+.invoice.quotation-mode.compact-table .declaration h4 {
+  font-size: 13px !important;
+}
+.invoice.quotation-mode.compact-table .declaration p {
+  font-size: 12px !important;
+}
+.invoice.quotation-mode.compact-table .signature strong:first-child,
+.invoice.quotation-mode.compact-table .signatory-label {
+  font-size: 13px !important;
+}
+.invoice.quotation-mode.compact-table .invoice-footer,
+.invoice.quotation-mode.compact-table .invoice-footer p {
+  font-size: 11px !important;
+}
+
+/* 7+ items: reduce by up to 2px */
+.invoice.quotation-mode.ultra-compact-table,
+.invoice.quotation-mode.super-compact-table {
+  font-size: 12px;
+}
+.invoice.quotation-mode.ultra-compact-table .invoice-title,
+.invoice.quotation-mode.super-compact-table .invoice-title {
+  font-size: 18px !important;
+}
+.invoice.quotation-mode.ultra-compact-table .company-details h2,
+.invoice.quotation-mode.super-compact-table .company-details h2 {
+  font-size: 20px !important;
+}
+.invoice.quotation-mode.ultra-compact-table .company-details p,
+.invoice.quotation-mode.super-compact-table .company-details p,
+.invoice.quotation-mode.ultra-compact-table .company-contact,
+.invoice.quotation-mode.super-compact-table .company-contact,
+.invoice.quotation-mode.ultra-compact-table .buyer-details p,
+.invoice.quotation-mode.super-compact-table .buyer-details p,
+.invoice.quotation-mode.ultra-compact-table .buyer-details strong,
+.invoice.quotation-mode.super-compact-table .buyer-details strong,
+.invoice.quotation-mode.ultra-compact-table .meta-label,
+.invoice.quotation-mode.super-compact-table .meta-label,
+.invoice.quotation-mode.ultra-compact-table .meta-value,
+.invoice.quotation-mode.super-compact-table .meta-value {
+  font-size: 11.5px !important;
+}
+.invoice.quotation-mode.ultra-compact-table .items-table th,
+.invoice.quotation-mode.super-compact-table .items-table th {
+  font-size: 11px !important;
+  padding: 4px 2px !important;
+}
+.invoice.quotation-mode.ultra-compact-table .items-table td,
+.invoice.quotation-mode.super-compact-table .items-table td,
+.invoice.quotation-mode.ultra-compact-table .items-table .item-row td,
+.invoice.quotation-mode.super-compact-table .items-table .item-row td {
+  font-size: 12px !important;
+  padding-top: 3.5px !important;
+  padding-bottom: 3.5px !important;
+}
+.invoice.quotation-mode.ultra-compact-table .tax-row td,
+.invoice.quotation-mode.super-compact-table .tax-row td,
+.invoice.quotation-mode.ultra-compact-table .tax-row .tax-label,
+.invoice.quotation-mode.super-compact-table .tax-row .tax-label,
+.invoice.quotation-mode.ultra-compact-table .round-row td,
+.invoice.quotation-mode.super-compact-table .round-row td,
+.invoice.quotation-mode.ultra-compact-table .round-row .round-label,
+.invoice.quotation-mode.super-compact-table .round-row .round-label,
+.invoice.quotation-mode.ultra-compact-table .total-row td,
+.invoice.quotation-mode.super-compact-table .total-row td {
+  font-size: 12px !important;
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+}
+.invoice.quotation-mode.ultra-compact-table .amount-words strong,
+.invoice.quotation-mode.super-compact-table .amount-words strong {
+  font-size: 11.5px !important;
+}
+.invoice.quotation-mode.ultra-compact-table .amount-words p,
+.invoice.quotation-mode.super-compact-table .amount-words p {
+  font-size: 12px !important;
+}
+.invoice.quotation-mode.ultra-compact-table .tax-summary th,
+.invoice.quotation-mode.super-compact-table .tax-summary th {
+  font-size: 10.5px !important;
+  padding: 2.5px 2px !important;
+}
+.invoice.quotation-mode.ultra-compact-table .tax-summary td,
+.invoice.quotation-mode.super-compact-table .tax-summary td,
+.invoice.quotation-mode.ultra-compact-table .tax-summary .tax-total td,
+.invoice.quotation-mode.super-compact-table .tax-summary .tax-total td {
+  font-size: 11px !important;
+  padding: 2.5px 2px !important;
+}
+.invoice.quotation-mode.ultra-compact-table .tax-words,
+.invoice.quotation-mode.super-compact-table .tax-words,
+.invoice.quotation-mode.ultra-compact-table .tax-words strong,
+.invoice.quotation-mode.super-compact-table .tax-words strong,
+.invoice.quotation-mode.ultra-compact-table .tax-words span,
+.invoice.quotation-mode.super-compact-table .tax-words span {
+  font-size: 12px !important;
+}
+.invoice.quotation-mode.ultra-compact-table .declaration h4,
+.invoice.quotation-mode.super-compact-table .declaration h4 {
+  font-size: 12px !important;
+}
+.invoice.quotation-mode.ultra-compact-table .declaration p,
+.invoice.quotation-mode.super-compact-table .declaration p {
+  font-size: 11px !important;
+}
+.invoice.quotation-mode.ultra-compact-table .signature strong:first-child,
+.invoice.quotation-mode.super-compact-table .signature strong:first-child,
+.invoice.quotation-mode.ultra-compact-table .signatory-label,
+.invoice.quotation-mode.super-compact-table .signatory-label {
+  font-size: 12px !important;
+}
+.invoice.quotation-mode.ultra-compact-table .invoice-footer,
+.invoice.quotation-mode.super-compact-table .invoice-footer,
+.invoice.quotation-mode.ultra-compact-table .invoice-footer p,
+.invoice.quotation-mode.super-compact-table .invoice-footer p {
   font-size: 10px !important;
 }
 
